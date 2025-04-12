@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6f9fc, #e9f3ff);
+}
+
+.register-container {
+    width: 100%;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.register-box {
+    width: 450px;
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 2em;
+    color: #2d5caa;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+form {
+    width: 100%;
+}
+
+.input-group {
+    position: relative;
+    margin: 20px 0;
+}
+
+.input-group input {
+    width: 100%;
+    height: 50px;
+    border: 2px solid #ccd6eb;
+    border-radius: 40px;
+    background: #f9fbff;
+    color: #333;
+    font-size: 1em;
+    padding: 0 20px;
+    outline: none;
+    transition: .3s ease;
+}
+
+.input-group input:focus {
+    border-color: #66b2ff;
+    background-color: #fff;
+}
+
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #999;
+    pointer-events: none;
+    transition: .3s ease;
+}
+
+.input-group input:focus ~ label,
+.input-group input:not(:placeholder-shown) ~ label {
+    top: 0;
+    font-size: 0.8em;
+    background: #fff;
+    padding: 0 6px;
+    color: #66b2ff;
+}
+
+/* File input */
+.input-group.file-upload input[type="file"] {
+    padding: 13px 20px;
+    cursor: pointer;
+}
+
+.input-group.file-upload label.file-label {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85em;
+    color: #666;
+}
+
+.btn {
+    width: 100%;
+    height: 45px;
+    background: #66b2ff;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #fff;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #5a9ee4;
+}
+
+.login-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.95em;
+    color: #666;
+}
+
+.login-link a {
+    color: #2d5caa;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.login-link a:hover {
+    color: #1a417a;
+}

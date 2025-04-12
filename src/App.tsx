@@ -1,10 +1,14 @@
 import React from 'react';
 import './App.css';
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
-export default function App() {
+function App() {
     return (
-        <p>Hello!</p>
+       <LoginPage/>
+       //  <RegisterPage/>
     );
 }
+export default App;
 
 
