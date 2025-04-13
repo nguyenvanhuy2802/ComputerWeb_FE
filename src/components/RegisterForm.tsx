@@ -85,7 +85,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onRegister}) => {
                         <label>Confirm Password</label>
                     </div>
                     <div className="input-group file-upload">
-                        <input type="file" accept="image/*" id={"avatar"} name={"avatar"} value={formData.avatar}
+                        <input type="file" accept="image/*" id={"avatar"} name={"avatar"}
                                onChange={handleChange} required placeholder=""/>
                         <label className="file-label">Avatar</label>
                     </div>
