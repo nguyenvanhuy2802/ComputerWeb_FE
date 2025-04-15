@@ -10,6 +10,6 @@ export interface RegisterData{
     address: string;
     username: string;
     password: string;
-    confirmPassword: string;
-    avatar: string;
+    confirmPassword?: string;
+    profileImage: string;
 }
