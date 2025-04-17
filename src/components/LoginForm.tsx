@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {LoginData} from '../types/User';
 import  "../css/loginForm.css";
+import { Link } from 'react-router-dom';
+import {validateLoginData} from "../validation/validation";
 
 interface LoginFormProps {
     onLogin: (data: LoginData) => void;
@@ -8,46 +10,70 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({onLogin}) => {
     const [formData, serFormData] = useState<LoginData>({username: '', password: ''});
-    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         serFormData({...formData, [e.target.name]: e.target.value});
     };
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!formData.username || !formData.password) {
-            setError("Vui lòng nhập đầy đủ Username và Password!!");
+      const validationErrors = validateLoginData(formData);
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
-        setError('');
-        onLogin(formData);
+        setErrors({});
+        setLoading(true);
+
+        try {
+            await onLogin(formData);
+        } catch (error) {
+            console.error("onLogin failed", error);
+        } finally {
+            setLoading(false);
+        }
     };
+
     return (
         <div className={"container"}>
+            {loading && (
+                <div className="loading-overlay">
+                    <div className="loading-spinner" />
+                    <p className="loading-text">Loading...</p>
+                </div>
+            )}
             <div className={"login-box"}>
                 <h2>Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="input-box">
                         <input type="text" id={"username"} name={"username"} value={formData.username}
                                onChange={handleChange} required placeholder=""/>
-                        <label htmlFor={"username"}>Username</label>
+                        <label>Username</label>
+                        {errors["username"] && <span className="error-text">{errors["username"]}</span>}
+
                     </div>
                     <div className="input-box">
                         <input type="password" id={"password"} name={"password"} value={formData.password}
                                onChange={handleChange} required placeholder=""/>
-                        <label htmlFor={"password"}>Password</label>
+                        <label>Password</label>
+                        {errors["password"] && <span className="error-text">{errors["password"]}</span>}
+
                     </div>
                     <div className="forgot-pass">
                         <a href="#">Forgot your password?</a>
                     </div>
                     <button type="submit" className="btn">Login</button>
                     <div className="signup-link">
-                        <a href="#">Signup</a>
+                        <div className="signup-link">
+                            <Link to="/register">Signup</Link>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
-    );
+);
 
 };
 export default LoginForm;
