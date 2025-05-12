@@ -1,13 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-* {
+/* Scope all styles inside .register-form */
+.register-form * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
-body {
+.register-form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,38 +14,38 @@ body {
     background: linear-gradient(135deg, #f6f9fc, #e9f3ff);
 }
 
-.register-container {
+.register-form .register-container {
     width: 100%;
     padding: 40px 20px;
     display: flex;
     justify-content: center;
 }
 
-.register-box {
+.register-form .register-box {
     width: 450px;
     background: #fff;
     padding: 40px 30px;
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
-h2 {
+.register-form h2 {
     font-size: 2em;
     color: #2d5caa;
     text-align: center;
     margin-bottom: 25px;
 }
 
-form {
+.register-form form {
     width: 100%;
 }
 
-.input-group {
+.register-form .input-group {
     position: relative;
     margin: 20px 0;
 }
 
-.input-group input {
+.register-form .input-group input {
     width: 100%;
     height: 50px;
     border: 2px solid #ccd6eb;
@@ -59,12 +58,12 @@ form {
     transition: .3s ease;
 }
 
-.input-group input:focus {
+.register-form .input-group input:focus {
     border-color: #66b2ff;
     background-color: #fff;
 }
 
-.input-group label {
+.register-form .input-group label {
     position: absolute;
     top: 50%;
     left: 20px;
@@ -75,8 +74,8 @@ form {
     transition: .3s ease;
 }
 
-.input-group input:focus ~ label,
-.input-group input:not(:placeholder-shown) ~ label {
+.register-form .input-group input:focus ~ label,
+.register-form .input-group input:not(:placeholder-shown) ~ label {
     top: 0;
     font-size: 0.8em;
     background: #fff;
@@ -85,19 +84,19 @@ form {
 }
 
 /* File input */
-.input-group.file-upload input[type="file"] {
+.register-form .input-group.file-upload input[type="file"] {
     padding: 13px 20px;
     cursor: pointer;
 }
 
-.input-group.file-upload label.file-label {
+.register-form .input-group.file-upload label.file-label {
     display: block;
     margin-top: 5px;
     font-size: 0.85em;
     color: #666;
 }
 
-.btn {
+.register-form .btn {
     width: 100%;
     height: 45px;
     background: #66b2ff;
@@ -110,36 +109,35 @@ form {
     transition: 0.3s;
 }
 
-.btn:hover {
+.register-form .btn:hover {
     background: #5a9ee4;
 }
 
-.login-link {
+.register-form .login-link {
     margin-top: 20px;
     text-align: center;
     font-size: 0.95em;
     color: #666;
 }
 
-.login-link a {
+.register-form .login-link a {
     color: #2d5caa;
     font-weight: 600;
     text-decoration: none;
     transition: 0.3s;
 }
 
-.login-link a:hover {
+.register-form .login-link a:hover {
     color: #1a417a;
 }
 
-
-.loading-overlay {
+.register-form .loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 999;
     display: flex;
     justify-content: center;
@@ -147,7 +145,7 @@ form {
     flex-direction: column;
 }
 
-.loading-spinner {
+.register-form .loading-spinner {
     width: 40px;
     height: 40px;
     border: 5px solid #fff;
@@ -156,7 +154,7 @@ form {
     animation: spin 1s linear infinite;
 }
 
-.loading-text {
+.register-form .loading-text {
     color: white;
     margin-top: 10px;
     font-size: 16px;
@@ -164,13 +162,16 @@ form {
 
 /* Animation */
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-.error-text {
+.register-form .error-text {
     color: red;
     font-size: 13px;
     margin-top: 4px;
 }
-

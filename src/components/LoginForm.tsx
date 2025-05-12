@@ -37,43 +37,57 @@ const LoginForm: React.FC<LoginFormProps> = ({onLogin}) => {
     };
 
     return (
-        <div className={"container"}>
+        <div className="login-form-container">
             {loading && (
-                <div className="loading-overlay">
-                    <div className="loading-spinner" />
-                    <p className="loading-text">Loading...</p>
+                <div className="login-form-loading-overlay">
+                    <div className="login-form-loading-spinner" />
+                    <p className="login-form-loading-text">Loading...</p>
                 </div>
             )}
-            <div className={"login-box"}>
-                <h2>Login</h2>
+            <div className="login-form-box">
+                <h2 className="login-form-title">Login</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="input-box">
-                        <input type="text" id={"username"} name={"username"} value={formData.username}
-                               onChange={handleChange} required placeholder=""/>
+                    <div className="login-form-input-box">
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                            placeholder=""
+                        />
                         <label>Username</label>
-                        {errors["username"] && <span className="error-text">{errors["username"]}</span>}
-
+                        {errors["username"] && (
+                            <span className="login-form-error-text">{errors["username"]}</span>
+                        )}
                     </div>
-                    <div className="input-box">
-                        <input type="password" id={"password"} name={"password"} value={formData.password}
-                               onChange={handleChange} required placeholder=""/>
+                    <div className="login-form-input-box">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                            placeholder=""
+                        />
                         <label>Password</label>
-                        {errors["password"] && <span className="error-text">{errors["password"]}</span>}
-
+                        {errors["password"] && (
+                            <span className="login-form-error-text">{errors["password"]}</span>
+                        )}
                     </div>
-                    <div className="forgot-pass">
+                    <div className="login-form-forgot-pass">
                         <a href="#">Forgot your password?</a>
                     </div>
-                    <button type="submit" className="btn">Login</button>
-                    <div className="signup-link">
-                        <div className="signup-link">
-                            <Link to="/register">Signup</Link>
-                        </div>
+                    <button type="submit" className="login-form-btn">Login</button>
+                    <div className="login-form-signup-link">
+                        <Link to="/register">Signup</Link>
                     </div>
                 </form>
             </div>
         </div>
-);
+    );
 
 };
 export default LoginForm;

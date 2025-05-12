@@ -1,51 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
-* {
+.login-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f6f9fc, #e9f3ff);
-}
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-box {
+.login-form-box {
     width: 400px;
     background: #ffffff;
     padding: 40px 30px;
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-form {
-    width: 100%;
-    padding: 0 20px;
-}
-
-h2 {
+.login-form-title {
     font-size: 2em;
     color: #2d5caa;
     text-align: center;
     margin-bottom: 20px;
 }
 
-.input-box {
+.login-form-input-box {
     position: relative;
     margin: 25px 0;
 }
 
-input {
+.login-form-input-box input {
     width: 100%;
     height: 50px;
     background: #f9fbff;
@@ -58,12 +43,12 @@ input {
     transition: .5s ease;
 }
 
-input:focus {
+.login-form-input-box input:focus {
     border-color: #66b2ff;
     background-color: #ffffff;
 }
 
-label {
+.login-form-input-box label {
     position: absolute;
     top: 50%;
     left: 20px;
@@ -74,8 +59,8 @@ label {
     transition: .5s ease;
 }
 
-.input-box input:focus ~ label,
-.input-box input:not(:placeholder-shown) ~ label {
+.login-form-input-box input:focus ~ label,
+.login-form-input-box input:not(:placeholder-shown) ~ label {
     top: 0;
     font-size: 0.8em;
     background: #ffffff;
@@ -83,23 +68,23 @@ label {
     color: #66b2ff;
 }
 
-.forgot-pass {
+.login-form-forgot-pass {
     margin: -10px 0 10px;
     text-align: center;
 }
 
-.forgot-pass a {
+.login-form-forgot-pass a {
     font-size: 0.85em;
     color: #999;
     text-decoration: none;
     transition: 0.3s;
 }
 
-.forgot-pass a:hover {
+.login-form-forgot-pass a:hover {
     color: #2d5caa;
 }
 
-.btn {
+.login-form-btn {
     width: 100%;
     height: 45px;
     background: #66b2ff;
@@ -112,16 +97,16 @@ label {
     transition: 0.3s;
 }
 
-.btn:hover {
+.login-form-btn:hover {
     background: #5a9ee4;
 }
 
-.signup-link {
+.login-form-signup-link {
     margin: 20px 0 10px;
     text-align: center;
 }
 
-.signup-link a {
+.login-form-signup-link a {
     font-size: 1em;
     color: #2d5caa;
     text-decoration: none;
@@ -129,16 +114,17 @@ label {
     transition: 0.3s;
 }
 
-.signup-link a:hover {
+.login-form-signup-link a:hover {
     color: #1a417a;
 }
-.loading-overlay {
+
+.login-form-loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 999;
     display: flex;
     justify-content: center;
@@ -146,7 +132,7 @@ label {
     flex-direction: column;
 }
 
-.loading-spinner {
+.login-form-loading-spinner {
     width: 40px;
     height: 40px;
     border: 5px solid #fff;
@@ -155,20 +141,24 @@ label {
     animation: spin 1s linear infinite;
 }
 
-.loading-text {
+.login-form-loading-text {
     color: white;
     margin-top: 10px;
     font-size: 16px;
 }
 
-/* Animation */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.login-form-error-text {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
 }
 
-.error-message {
-    color: red;
-    margin-top: 10px;
-    font-size: 14px;
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
