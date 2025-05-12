@@ -26,7 +26,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onRegister}) => {
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value, files} = e.target;
 
@@ -54,12 +53,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onRegister}) => {
             }
         } catch (err) {
             console.error("Upload avatar failed", err);
-            setErrors({ avatar: "Upload avatar failed" });
+            setErrors({avatar: "Upload avatar failed"});
             setLoading(false);
             return;
         }
 
-        const { confirmPassword, ...dataToSend } = formData;
+        const {confirmPassword, ...dataToSend} = formData;
 
         const finalData: RegisterData = {
             ...dataToSend,
@@ -75,48 +74,51 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onRegister}) => {
         }
     };
     return (
-        <div className={"register-container"}>
+        <div className="register-form">
             {loading && (
                 <div className="loading-overlay">
-                    <div className="loading-spinner" />
+                    <div className="loading-spinner"/>
                     <p className="loading-text">Loading...</p>
                 </div>
             )}
-            <div className="register-box">
-                <h2>Create Account</h2>
-                <form onSubmit={handleSubmit}>
-                    {[
-                        { label: 'Full Name', name: 'name', type: 'text' },
-                        { label: 'Email', name: 'email', type: 'email' },
-                        { label: 'Phone', name: 'phone', type: 'tel' },
-                        { label: 'Address', name: 'address', type: 'text' },
-                        { label: 'Username', name: 'username', type: 'text' },
-                        { label: 'Password', name: 'password', type: 'password' },
-                        { label: 'Confirm Password', name: 'confirmPassword', type: 'password' },
-                    ].map(({ label, name, type }) => (
-                        <div className="input-group" key={name}>
-                            <input
-                                type={type}
-                                id={name}
-                                name={name}
-                                value={(formData as any)[name]}
-                                onChange={handleChange}
-                                required
-                                placeholder={""}
-                            />
-                            <label>{label}</label>
-                            {errors[name] && <span className="error-text">{errors[name]}</span>}
+            <div className="register-container">
+                <div className="register-box">
+                    <h2>Create Account</h2>
+                    <form onSubmit={handleSubmit}>
+                        {[
+                            {label: 'Full Name', name: 'name', type: 'text'},
+                            {label: 'Email', name: 'email', type: 'email'},
+                            {label: 'Phone', name: 'phone', type: 'tel'},
+                            {label: 'Address', name: 'address', type: 'text'},
+                            {label: 'Username', name: 'username', type: 'text'},
+                            {label: 'Password', name: 'password', type: 'password'},
+                            {label: 'Confirm Password', name: 'confirmPassword', type: 'password'},
+                        ].map(({label, name, type}) => (
+                            <div className="input-group" key={name}>
+                                <input
+                                    type={type}
+                                    id={name}
+                                    name={name}
+                                    value={(formData as any)[name]}
+                                    onChange={handleChange}
+                                    required
+                                    placeholder={""}
+                                />
+                                <label>{label}</label>
+                                {errors[name] && <span className="error-text">{errors[name]}</span>}
+                            </div>
+                        ))}
+                        <div className="input-group file-upload">
+                            <input type="file" accept="image/*" id="avatar" name="avatar" onChange={handleChange}
+                                   required/>
+                            <label className="file-label">Avatar</label>
+                            {errors.avatar && <span className="error-text">{errors.avatar}</span>}
                         </div>
-                    ))}
-                    <div className="input-group file-upload">
-                        <input type="file" accept="image/*" id="avatar" name="avatar" onChange={handleChange} required />
-                        <label className="file-label">Avatar</label>
-                        {errors.avatar && <span className="error-text">{errors.avatar}</span>}
-                    </div>
 
-                    <button type="submit" className="btn">Register</button>
-                    <p className="login-link">Already have an account? <Link to="/">Login here</Link></p>
-                </form>
+                        <button type="submit" className="btn">Register</button>
+                        <p className="login-link">Already have an account? <Link to="/">Login here</Link></p>
+                    </form>
+                </div>
             </div>
         </div>
     );

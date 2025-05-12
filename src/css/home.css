@@ -1,0 +1,31 @@
+.home-container {
+    padding-top: clamp(100px,30vh, 160px);
+    padding-bottom: clamp(100px,10vh, 160px);
+}
+
+.category-card {
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    transition: transform 0.3s ease;
+}
+.category-card:hover {
+    transform: scale(1.02);
+}
+.product-card-img {
+    height: 200px;
+    object-fit: cover;
+}
+.product-description {
+    font-size: 0.875rem;
+}
+.custom-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
