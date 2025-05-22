@@ -1,9 +1,10 @@
 import React from "react";
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Form} from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import HomePage from "../pages/HomePage";
 import PrivateRoute from "./PrivateRoute";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 const AppRoutes: React.FC = () => {
     return (
@@ -18,6 +19,8 @@ const AppRoutes: React.FC = () => {
                     // </PrivateRoute>
                 }
             />
+            <Route path="/forgot-password" element={<ForgotPasswordPage/>} />
+
         </Routes>
     );
 };
