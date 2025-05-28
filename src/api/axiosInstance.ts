@@ -14,7 +14,10 @@ axiosInstance.interceptors.request.use((config) => {
     const excludeAuthPaths = [
         "/auth/login",
         "/auth/register",
-        "/auth/upload-imgur"
+        "/auth/upload-imgur",
+        "/auth/forgot-password",
+        "/auth/verify-otp",
+        "/auth/reset-password",
     ];
 
     const shouldExclude = excludeAuthPaths.some(path => config.url?.includes(path));

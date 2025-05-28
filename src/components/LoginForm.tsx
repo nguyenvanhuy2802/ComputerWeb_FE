@@ -78,7 +78,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onLogin}) => {
                         )}
                     </div>
                     <div className="login-form-forgot-pass">
-                        <a href="#">Forgot your password?</a>
+                        <a href="/forgot-password">Forgot your password?</a>
                     </div>
                     <button type="submit" className="login-form-btn">Login</button>
                     <div className="login-form-signup-link">
