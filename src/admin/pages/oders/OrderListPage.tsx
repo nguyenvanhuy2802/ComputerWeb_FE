@@ -13,8 +13,8 @@ import {
     Paper, Stack, useTheme,
 } from "@mui/material";
 import {DataGrid, GridColDef, GridPaginationModel, GridRenderCellParams} from "@mui/x-data-grid";
-import { getAllOrders, updateOrderStatus } from "../../../api/orderApi";
-import { Order, OrderDTO, OrderStatus } from "../../../types/Order";
+import { getAllOrdersAdmin, updateOrderStatus } from "../../../api/orderApi";
+import { OrderAdmin, OrderDTO, OrderStatus } from "../../../types/Order";
 import { useSnackbar } from "notistack";
 
 const statusLabels: Record<OrderStatus, string> = {
@@ -29,7 +29,7 @@ const statusLabels: Record<OrderStatus, string> = {
 
 const OrderListPage: React.FC = () => {
     const theme = useTheme();
-    const [orders, setOrders] = useState<Order[]>([]);
+    const [orders, setOrders] = useState<OrderAdmin[]>([]);
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -44,7 +44,7 @@ const OrderListPage: React.FC = () => {
         const fetchOrders = async () => {
 
             try {
-                const data = await getAllOrders();
+                const data = await getAllOrdersAdmin();
                 setOrders(data);
             } catch (error: any) {
                 enqueueSnackbar("Lỗi khi tải đơn hàng: " + error.message, { variant: "error" });

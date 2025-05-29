@@ -7,7 +7,6 @@ import HomePage from "../pages/HomePage";
 import CartPage from "../pages/CartPage";
 import PaymentPage from "../pages/PaymentPage";
 import OrderPage from "../pages/OrderPage";
-import HomePage from "../pages/HomePage";
 import PrivateRoute from "./PrivateRoute";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import AdminLoginPage from "../admin/AdminLoginPage";
