@@ -1,11 +1,25 @@
 import React, {useEffect, useState} from "react";
 import "../css/header.css";
-import { FaSearch, FaUser, FaBell, FaShoppingCart, FaBars } from "react-icons/fa";
+import {FaBars, FaBell, FaClipboardList, FaSearch, FaShoppingCart, FaUser} from "react-icons/fa";
 import {Link} from "react-router-dom";
+import {useCart} from "../context/CartContext";
+import { MdReceiptLong } from "react-icons/md";
+
+
 
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState("");
+    const { cartCount, refreshCartCount , setCartCount} = useCart();
+
+
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        setCartCount(0)
+        setIsLoggedIn(false);
+    };
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -13,14 +27,9 @@ const Header: React.FC = () => {
         if (token) {
             setIsLoggedIn(true);
             if (storedUser) setUsername(storedUser);
+            refreshCartCount();
         }
     }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        setIsLoggedIn(false);
-    };
 
     return (
         <div className="site-header-wrapper">
@@ -41,52 +50,69 @@ const Header: React.FC = () => {
                 <div className="site-main-header">
                     <div className="site-container">
                         <div className="site-logo">
-                            <img src="/logo.png" alt="Logo" />
+                            <img src="/logo.png" alt="Logo"/>
                         </div>
 
                         <div className="site-menu-icon">
-                            <FaBars />
+                            <FaBars/>
                         </div>
 
                         <button className="site-category-button">Danh mục sản phẩm</button>
 
                         <div className="site-search-bar">
-                            <FaSearch className="search-icon" />
-                            <input type="text" placeholder="Bạn cần tìm gì hôm nay?" />
+                            <FaSearch className="search-icon"/>
+                            <input type="text" placeholder="Bạn cần tìm gì hôm nay?"/>
                         </div>
 
                         <div className="site-header-actions">
                             {isLoggedIn ? (
                                 <div className="site-login-section">
-                                    <FaUser />
+                                    <FaUser/>
                                     <div>
                                         <div>Xin chào, <strong>{username}</strong></div>
-                                        <a  className="site-sub-link-b" href={"#"} onClick={(e) => {
-                                            e.preventDefault();
-                                            handleLogout();
-                                        }}>Đăng xuất</a>
+                                        <Link
+                                            to="#"
+                                            className="site-sub-link-b"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleLogout();
+                                            }}
+                                        >
+                                            Đăng xuất
+                                        </Link>
                                     </div>
                                 </div>
                             ) : (
                                 <div className="site-login-section">
-                                    <FaUser />
+                                    <FaUser/>
                                     <div>
-                                        <div><a className="site-sub-link-b" href="/login">Đăng nhập</a></div>
-                                        <a className="site-sub-link" href="/register">Đăng ký</a>
+                                        <div><Link to="/login" className="site-sub-link-b">Đăng nhập</Link></div>
+                                        <Link to="/register" className="site-sub-link">Đăng ký</Link>
                                     </div>
                                 </div>
                             )}
                             <div className="site-notification">
-                                <FaBell />
+                                <FaBell/>
                             </div>
+                            <div className="site-orders-link">
+                                <Link to="/orders" className="site-order-link">
+                                    <MdReceiptLong style={{marginRight: "6px", fontSize: "18px", color: "#1E90FF"}}/>
+                                    Đơn hàng
+                                </Link>
+                            </div>
+
                             <div className="site-cart">
-                                <FaShoppingCart />
+                                <FaShoppingCart/>
                                 <div>
-                                    <div>Giỏ hàng của bạn</div>
-                                    <div className="site-sub-link">(0) sản phẩm</div>
+                                    <div><Link to="/cart" className="site-sub-link-b">Giỏ hàng của bạn</Link></div>
+                                    <div className="site-sub-link">
+                                        <span className="cart-count-highlight">({cartCount})</span> sản phẩm
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
+
                     </div>
                 </div>
             </header>

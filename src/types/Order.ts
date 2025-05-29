@@ -5,6 +5,15 @@ export interface Order {
     customerId: number;
     buyerName: string;
     deliveryAddress: string;
+    orderDate: string;
+    status: string;
+    totalAmount: number;  
+}
+export interface OrderAdmin {
+    orderId: number;
+    customerId: number;
+    buyerName: string;
+    deliveryAddress: string;
     totalAmount: number;
     status: OrderStatus;
     orderDate: string;
@@ -17,4 +26,12 @@ export interface OrderDTO {
     totalAmount: number;
     status: OrderStatus;
     orderDate?: string;
+}
+export interface CreateOrderRequest {
+    customerId: number;
+    buyerName: string;
+    deliveryAddress: string;
+    totalAmount: number;
+    email?: string;
+    phone?: string;
 }

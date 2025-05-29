@@ -2,11 +2,19 @@ import React, {useEffect, useState} from "react";
 import {Category} from "../types/Category";
 import {Product} from "../types/Product";
 import {getAllCategories} from "../api/categoryApi";
-import {getAllProducts} from "../api/productApi";
-import {Link} from "react-router-dom";
+import {getAllProducts, getProductById} from "../api/productApi";
+import {Link, useNavigate} from "react-router-dom";
 import "../css/home.css";
-
 import {getAverageRatingByProductId, getReviewCountByProductId} from "../api/reviewApi";
+import {saveCartItem} from "../api/cartItemApi";
+import {toast} from "react-toastify";
+import {useCart} from "../context/CartContext";
+import {useUser} from "../context/UserContext";
+import {Item} from "../types/CartItem";
+
+interface EnrichedItem extends Item {
+    product?: Product;
+}
 
 const Home: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -17,6 +25,11 @@ const Home: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [modalAction, setModalAction] = useState<"buy" | "add-to-cart">("buy");
+    const {refreshCartCount} = useCart();
+    const {cart} = useUser();
+    const navigate = useNavigate();
+    const [cartItems, setCartItems] = useState<EnrichedItem[]>([]);
+
 
     const handleShowModal = (product: Product) => {
         setSelectedProduct(product);
@@ -27,6 +40,39 @@ const Home: React.FC = () => {
         setShowModal(false);
         setSelectedProduct(null);
     };
+
+    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!selectedProduct || !cart) return;
+        try {
+            if (modalAction === "add-to-cart") {
+                await saveCartItem(quantity, cart.cartId, selectedProduct.productId);
+                await refreshCartCount();
+                toast.success("Đã thêm vào giỏ hàng!");
+                handleCloseModal();
+            } else if (modalAction === "buy") {
+                const product = await getProductById(selectedProduct.productId);
+                const selectedCartItems: EnrichedItem[] = [
+                    {
+                        productId: selectedProduct.productId,
+                        quantity: quantity,
+                        product: product,
+                    },
+                ];
+                navigate("/payment", {
+                    state: {
+                        cartItems: selectedCartItems,
+                        many: false
+                    },
+                });
+            }
+
+        } catch (error) {
+            console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
+            toast.error("Có lỗi xảy ra. Vui lòng thử lại.");
+        }
+    };
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,7 +104,6 @@ const Home: React.FC = () => {
 
         fetchData();
     }, []);
-
 
 
     return (
@@ -177,9 +222,9 @@ const Home: React.FC = () => {
             </section>
             {/* Modal hiển thị chi tiết sản phẩm */}
             {selectedProduct && (
-                <div className={`modal fade ${showModal ? "show d-block" : ""} custom-modal`} >
+                <div className={`modal fade ${showModal ? "show d-block" : ""} custom-modal`} tabIndex={-1}>
                     <div className="modal-dialog">
-                        <form onSubmit={(e) => { e.preventDefault(); /* Handle Submit Here */ }}>
+                        <form onSubmit={handleFormSubmit}>
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title">Xác nhận</h5>
@@ -192,7 +237,12 @@ const Home: React.FC = () => {
                                             src={selectedProduct.productImage}
                                             alt={selectedProduct.name}
                                             className="img-fluid rounded-circle"
-                                            style={{ width: "80px", height: "80px", objectFit: "cover", marginRight: "15px" }}
+                                            style={{
+                                                width: "80px",
+                                                height: "80px",
+                                                objectFit: "cover",
+                                                marginRight: "15px"
+                                            }}
                                         />
                                         <div>
                                             <h5>{selectedProduct.name}</h5>
@@ -204,7 +254,9 @@ const Home: React.FC = () => {
                                     <div className="mb-3">
                                         <label htmlFor="modalQuantity" className="form-label">Số lượng:</label>
                                         <div className="input-group">
-                                            <button type="button" className="btn btn-outline-secondary" onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
+                                            <button type="button" className="btn btn-outline-secondary"
+                                                    onClick={() => setQuantity(q => Math.max(1, q - 1))}>-
+                                            </button>
                                             <input
                                                 type="number"
                                                 className="form-control text-center"
@@ -215,16 +267,16 @@ const Home: React.FC = () => {
                                                 onChange={(e) => setQuantity(Number(e.target.value))}
                                                 required
                                             />
-                                            <button type="button" className="btn btn-outline-secondary" onClick={() => setQuantity(q => q + 1)}>+</button>
+                                            <button type="button" className="btn btn-outline-secondary"
+                                                    onClick={() => setQuantity(q => q + 1)}>+
+                                            </button>
                                         </div>
                                     </div>
 
-                                    {/* Hidden Inputs */}
-                                    <input type="hidden" name="productId" value={selectedProduct.productId} />
-                                    <input type="hidden" name="action" value={modalAction} />
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Hủy</button>
+                                    <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Hủy
+                                    </button>
                                     <button type="submit" className="btn btn-primary">Xác nhận</button>
                                 </div>
                             </div>
@@ -234,6 +286,7 @@ const Home: React.FC = () => {
             )}
 
         </div>
+
     );
 };
 

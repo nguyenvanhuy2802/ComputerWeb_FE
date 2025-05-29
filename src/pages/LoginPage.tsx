@@ -13,7 +13,9 @@ const LoginPage: React.FC = () => {
 
             if (response.success) {
                 toast.success("Đăng nhập thành công!");
-                localStorage.setItem("token", response.data.data);
+
+                localStorage.setItem("token", response.data);
+                console.log("token:" , response.data);
                 localStorage.setItem("username", data.username);
 
                 navigate("/");

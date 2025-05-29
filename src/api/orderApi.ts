@@ -1,6 +1,7 @@
+
 import { axiosInstance } from './axiosInstance';
 import {Order, OrderDTO, OrderStatus} from "../types/Order";
-import orderListPage from "../admin/pages/oders/OrderListPage"; // đường dẫn tuỳ theo cấu trúc dự án của bạn
+import orderListPage from "../admin/pages/oders/OrderListPage"; 
 
 
 const BASE_URL = '/orders';
@@ -20,12 +21,7 @@ export const getOrdersByStatus = async (status: OrderStatus): Promise<OrderDTO[]
     return res.data;
 };
 
-export const getOrdersByCustomerId = async (customerId: number): Promise<OrderDTO[]> => {
-    const res = await axiosInstance.get(`${BASE_URL}/customer/${customerId}`);
-    return res.data;
-};
-
-export const createOrder = async (order: OrderDTO): Promise<OrderDTO> => {
+export const createOrderAdmin = async (order: OrderDTO): Promise<OrderDTO> => {
     const res = await axiosInstance.post(BASE_URL, order);
     return res.data;
 };
@@ -42,4 +38,14 @@ export const updateOrderStatus = async (
 
 export const deleteOrder = async (orderId: number): Promise<void> => {
     await axiosInstance.delete(`${BASE_URL}/${orderId}`);
+  
+export const createOrder = async ( data: CreateOrderRequest) => {
+    const response = await axiosInstance.post("/orders", data);
+    return response.data;
+};
+
+export const getOrdersByCustomerId = async (customerId: number | null) => {
+    const response = await axiosInstance.get(`/orders/customer/${customerId}`);
+    return response.data;
+
 };

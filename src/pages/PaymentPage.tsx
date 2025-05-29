@@ -1,14 +1,14 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Home from "../components/Home";
-import {ToastContainer } from "react-toastify";
+import {ToastContainer} from "react-toastify";
+import Payment from "../components/Payment";
 
-const HomePage: React.FC = () => {
+const PaymentPage: React.FC = () => {
     return (
         <>
             <Header/>
-            <Home/>
+            <Payment/>
             <Footer/>
             <ToastContainer
                 position="top-right"
@@ -26,4 +26,4 @@ const HomePage: React.FC = () => {
         ;
 };
 
-export default HomePage;
+export default PaymentPage;

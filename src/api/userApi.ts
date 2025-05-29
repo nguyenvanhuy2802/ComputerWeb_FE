@@ -1,3 +1,4 @@
+
 import { axiosInstance } from "./axiosInstance";
 import {CreateUserData, User} from "../types/User";
 import {GridRenderCellParams} from "@mui/x-data-grid";
@@ -46,3 +47,14 @@ export const updateUser = async (id: string, data: Partial<User>): Promise<any> 
     const response = await axiosInstance.put(`/users/${id}/update`, data);
     return response.data;
 };
+
+export const getCurrentUserId = async (): Promise<number> => {
+    const response = await axiosInstance.get("/users/me");
+    return response.data;
+};
+
+export const getUserById = async (id: number): Promise<number> => {
+    const response = await axiosInstance.get(`/users/${id}`);
+    return response.data;
+};
+

@@ -36,3 +36,12 @@ export interface CreateUserData {
     profileImage?: string;
     password: string;
 }
+export interface UserInformation{
+    userId: number;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    username: string;
+    profileImage: string;
+}
