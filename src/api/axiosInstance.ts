@@ -16,6 +16,9 @@ axiosInstance.interceptors.request.use((config) => {
         "/auth/register",
         "/auth/upload-imgur",
         "/categories",
+        "/auth/forgot-password",
+        "/auth/verify-otp",
+        "/auth/reset-password",
     ];
 
     const shouldExclude =  isPublicProductApi ||excludeAuthPaths.some(path => config.url?.includes(path));
