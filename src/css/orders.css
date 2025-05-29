@@ -1,0 +1,15 @@
+.orders-wrapper {
+    padding-top: clamp(100px, 30vh, 160px);
+    padding-bottom: clamp(100px, 10vh, 160px);
+    background-color: #f8f9fa;
+}
+
+.order-card {
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}

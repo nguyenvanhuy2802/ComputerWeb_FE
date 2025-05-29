@@ -13,3 +13,13 @@ export interface RegisterData{
     confirmPassword?: string;
     profileImage: string;
 }
+
+export interface UserInformation{
+    userId: number;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    username: string;
+    profileImage: string;
+}

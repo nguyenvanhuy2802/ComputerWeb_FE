@@ -10,14 +10,15 @@ export const axiosInstance = axios.create({
 // Thêm interceptor để tự động đính kèm token
 axiosInstance.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
-
+    const isPublicProductApi = config.url?.endsWith("/products");
     const excludeAuthPaths = [
         "/auth/login",
         "/auth/register",
-        "/auth/upload-imgur"
+        "/auth/upload-imgur",
+        "/categories",
     ];
 
-    const shouldExclude = excludeAuthPaths.some(path => config.url?.includes(path));
+    const shouldExclude =  isPublicProductApi ||excludeAuthPaths.some(path => config.url?.includes(path));
     if (token && !shouldExclude) {
         config.headers.Authorization = `Bearer ${token}`;
     }
