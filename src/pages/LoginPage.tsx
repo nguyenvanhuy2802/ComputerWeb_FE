@@ -13,9 +13,11 @@ const LoginPage: React.FC = () => {
 
             if (response.success) {
                 toast.success("Đăng nhập thành công!");
+
                 localStorage.setItem("token", response.data);
                 console.log("token:" , response.data);
                 localStorage.setItem("username", data.username);
+
                 navigate("/");
             } else {
                 toast.error(`Đăng nhập thất bại: ${response.message}`);
