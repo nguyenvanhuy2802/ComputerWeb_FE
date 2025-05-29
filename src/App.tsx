@@ -3,12 +3,16 @@ import './App.css';
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { SnackbarProvider } from 'notistack';
 
 function App() {
     return (
-        <Router>
-            <AppRoutes />
-        </Router>
+        <SnackbarProvider maxSnack={3}>
+            <Router>
+                <AppRoutes />
+            </Router>
+        </SnackbarProvider>
+
     );
 }
 
