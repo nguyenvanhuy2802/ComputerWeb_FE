@@ -1,0 +1,5 @@
+.cart-page {
+    padding-top: clamp(100px, 30vh, 160px);
+    padding-bottom: clamp(100px, 10vh, 160px);
+    background-color: #f8f9fa;
+}

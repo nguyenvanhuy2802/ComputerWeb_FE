@@ -1,14 +1,14 @@
-import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Home from "../components/Home";
-import {ToastContainer } from "react-toastify";
+import Cart from "../components/Cart";
+import {ToastContainer} from "react-toastify";
+import React from "react";
 
-const HomePage: React.FC = () => {
+const CartPage: React.FC = () => {
     return (
         <>
             <Header/>
-            <Home/>
+            <Cart/>
             <Footer/>
             <ToastContainer
                 position="top-right"
@@ -22,8 +22,6 @@ const HomePage: React.FC = () => {
                 theme="light"
             />
         </>
-    )
-        ;
-};
-
-export default HomePage;
+    );
+}
+export default CartPage;
