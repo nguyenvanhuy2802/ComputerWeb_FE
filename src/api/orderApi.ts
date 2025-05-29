@@ -1,12 +1,16 @@
 
 import { axiosInstance } from './axiosInstance';
-import {Order, OrderDTO, OrderStatus} from "../types/Order";
+import {CreateOrderRequest, Order, OrderAdmin, OrderDTO, OrderStatus} from "../types/Order";
 import orderListPage from "../admin/pages/oders/OrderListPage"; 
 
 
 const BASE_URL = '/orders';
 
 export const getAllOrders = async (): Promise<Order[]> => {
+    const res = await axiosInstance.get(BASE_URL);
+    return res.data;
+};
+export const getAllOrdersAdmin = async (): Promise<OrderAdmin[]> => {
     const res = await axiosInstance.get(BASE_URL);
     return res.data;
 };
@@ -38,7 +42,7 @@ export const updateOrderStatus = async (
 
 export const deleteOrder = async (orderId: number): Promise<void> => {
     await axiosInstance.delete(`${BASE_URL}/${orderId}`);
-  
+}
 export const createOrder = async ( data: CreateOrderRequest) => {
     const response = await axiosInstance.post("/orders", data);
     return response.data;
