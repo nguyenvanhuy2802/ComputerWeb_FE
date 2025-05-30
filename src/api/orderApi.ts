@@ -1,7 +1,5 @@
-
-import { axiosInstance } from './axiosInstance';
-import {Order, OrderDTO, OrderStatus} from "../types/Order";
-import orderListPage from "../admin/pages/oders/OrderListPage"; 
+import {axiosInstance} from './axiosInstance';
+import {CreateOrderRequest, Order, OrderDTO, OrderStatus} from "../types/Order";
 
 
 const BASE_URL = '/orders';
@@ -31,15 +29,15 @@ export const updateOrderStatus = async (
     status: OrderStatus
 ): Promise<OrderDTO> => {
     const res = await axiosInstance.put(`${BASE_URL}/${orderId}/status`, null, {
-        params: { status },
+        params: {status},
     });
     return res.data;
 };
 
 export const deleteOrder = async (orderId: number): Promise<void> => {
     await axiosInstance.delete(`${BASE_URL}/${orderId}`);
-  
-export const createOrder = async ( data: CreateOrderRequest) => {
+};
+export const createOrder = async (data: CreateOrderRequest) => {
     const response = await axiosInstance.post("/orders", data);
     return response.data;
 };

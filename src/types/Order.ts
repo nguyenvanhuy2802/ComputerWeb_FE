@@ -1,4 +1,3 @@
-
 export type OrderStatus = "PENDING" | "CONFIRMED" |"PACKAGING"| "SHIPPED" | "COMPLETED" | "CANCELED" | "RETURNED"
 export interface Order {
     orderId: number;
@@ -7,7 +6,7 @@ export interface Order {
     deliveryAddress: string;
     orderDate: string;
     status: string;
-    totalAmount: number;  
+    totalAmount: number;
 }
 export interface OrderAdmin {
     orderId: number;
@@ -34,4 +33,15 @@ export interface CreateOrderRequest {
     totalAmount: number;
     email?: string;
     phone?: string;
+}
+export interface OrderWithPayment {
+    orderId: number;
+    customerId: number;
+    buyerName: string;
+    deliveryAddress: string;
+    orderDate: string;
+    status: string;
+    totalAmount: number;
+    paymentMethod?: string;
+    paymentStatus?: string;
 }
