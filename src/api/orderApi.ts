@@ -1,4 +1,3 @@
-
 import { axiosInstance } from './axiosInstance';
 import {CreateOrderRequest, Order, OrderAdmin, OrderDTO, OrderStatus} from "../types/Order";
 import orderListPage from "../admin/pages/oders/OrderListPage"; 
@@ -35,7 +34,7 @@ export const updateOrderStatus = async (
     status: OrderStatus
 ): Promise<OrderDTO> => {
     const res = await axiosInstance.put(`${BASE_URL}/${orderId}/status`, null, {
-        params: { status },
+        params: {status},
     });
     return res.data;
 };
