@@ -5,7 +5,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { ProductDTO } from "../../../types/Product";
-import { getProductById, updateProduct } from "../../../api/productApi";
+import { getProductByIdAdmin, updateProduct } from "../../../api/productApi";
 import { getAllCategories } from "../../../api/categoryApi";
 import { validateProductData, ValidationErrors } from "../../../validation/validation";
 import {Category} from "../../../types/Category";
@@ -32,7 +32,7 @@ const EditProductPage: React.FC = () => {
         const fetchData = async () => {
             try {
                 const [productRes, categoriesRes] = await Promise.all([
-                    getProductById(Number(id)),
+                    getProductByIdAdmin(Number(id)),
                     getAllCategories(),
                 ]);
                 // Sửa chỗ này
