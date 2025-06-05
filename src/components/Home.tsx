@@ -28,7 +28,6 @@ const Home: React.FC = () => {
     const {refreshCartCount} = useCart();
     const {cart} = useUser();
     const navigate = useNavigate();
-    const [cartItems, setCartItems] = useState<EnrichedItem[]>([]);
 
 
     const handleShowModal = (product: Product) => {
@@ -152,8 +151,8 @@ const Home: React.FC = () => {
                         products.map((p) => (
                             <div key={p.productId} className="col-12 col-sm-6 col-md-4">
                                 <div className="card h-100 shadow border-0 rounded-3 product-card">
-                                    <Link to={`/productDetail?id=${p.productId}`} className="text-decoration-none">
-                                        <img
+                                    <Link to={`/product/${p.productId}`} className="text-decoration-none">
+                                    <img
                                             src={p.productImage}
                                             alt={p.name}
                                             className="card-img-top product-card-img rounded-top"

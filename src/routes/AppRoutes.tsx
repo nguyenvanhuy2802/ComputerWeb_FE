@@ -18,6 +18,7 @@ import AddUserPage from "../admin/pages/users/AddUserPage";
 import EditUserPage from "../admin/pages/users/EditUserPage";
 import AddProductPage from "../admin/pages/products/AddProductPage";
 import EditProductPage from "../admin/pages/products/EditProductPage";
+import ProductDetailPage from "../pages/ProductDetailPage";
 
 
 const AppRoutes: React.FC = () => {
@@ -28,6 +29,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/cart" element={<CartPage/>}/>
             <Route path="/payment" element={<PaymentPage/>}/>
             <Route path="/orders" element={<OrderPage/>}/>
+            <Route path="/product/:id" element={<ProductDetailPage/>}/>
             <Route
                 path="/"
                 element={

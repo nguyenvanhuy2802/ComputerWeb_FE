@@ -4,3 +4,8 @@ export interface Payment {
     paymentMethod: string;
     status: string;
 }
+
+export interface QRPayment {
+    amount: number;
+    addInfo: string;
+}

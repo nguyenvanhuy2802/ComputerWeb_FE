@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "../css/header.css";
 import {FaBars, FaBell, FaClipboardList, FaSearch, FaShoppingCart, FaUser} from "react-icons/fa";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useCart} from "../context/CartContext";
 import { MdReceiptLong } from "react-icons/md";
 
@@ -11,7 +11,7 @@ const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState("");
     const { cartCount, refreshCartCount , setCartCount} = useCart();
-
+    const navigate = useNavigate();
 
 
     const handleLogout = () => {
@@ -19,6 +19,7 @@ const Header: React.FC = () => {
         localStorage.removeItem("username");
         setCartCount(0)
         setIsLoggedIn(false);
+        navigate("/login");
     };
 
     useEffect(() => {

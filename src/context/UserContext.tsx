@@ -6,6 +6,7 @@ interface UserContextType {
     userId: number | null;
     cart: { cartId: number } | null;
     loading: boolean;
+    updateToken: (newToken: string | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -22,8 +23,22 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [userId, setUserId] = useState<number | null>(null);
     const [cart, setCart] = useState<{ cartId: number } | null>(null);
     const [loading, setLoading] = useState(true);
+    const [token, setToken] = useState(() => localStorage.getItem("token"));
+
+    const updateToken = (newToken: string | null) => {
+        if (newToken) {
+            localStorage.setItem("token", newToken);
+        } else {
+           console.log("Token null!")
+        }
+        setToken(newToken);
+    };
 
     useEffect(() => {
+        if (!token) {
+            setLoading(false);
+            return;
+        }
         const fetchUserData = async () => {
             try {
                 const id = await getCurrentUserId();
@@ -38,10 +53,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
 
         fetchUserData();
-    }, []);
+    }, [token]);
 
     return (
-        <UserContext.Provider value={{ userId, cart, loading }}>
+        <UserContext.Provider value={{ userId, cart, loading, updateToken }}>
             {children}
         </UserContext.Provider>
     );
