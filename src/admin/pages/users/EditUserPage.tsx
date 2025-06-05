@@ -13,7 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../../types/User";
 import isEqual from "lodash/isEqual";
 import { validateEditUserData, ValidationErrors } from "../../../validation/validation";
-import {getUserRoleFromToken} from "../../../utils/jwtUtils";
+import {getUserRoleFromToken,getUsernameFromToken} from "../../../utils/jwtUtils";
 
 const roles = [
     { value: "ADMIN", label: "ADMIN" },
@@ -91,18 +91,20 @@ const EditUserPage: React.FC = () => {
 
         try {
             const response = await updateUser(String(originalData.userId), formData);
-            if (response.data) {
-                localStorage.setItem("token", response.data);
+
+            const currentToken = localStorage.getItem("token");
+            const currentUserName = currentToken ? getUsernameFromToken(currentToken) : null;
+            if (response && currentUserName === originalData.username) {
+                localStorage.setItem("token", response);
+                const newRole = getUserRoleFromToken(response);
+                if (newRole !== "ROLE_ADMIN") {
+                    enqueueSnackbar("Bạn không còn quyền quản trị. Đã đăng xuất.", { variant: "warning" });
+                    navigate("/admin/login");
+                    return;
+                }
             }
+
             enqueueSnackbar("Cập nhật thành công!", { variant: "success" });
-            const newRole = getUserRoleFromToken(response.data);
-            if (newRole !== "ROLE_ADMIN") {
-                localStorage.removeItem("token");
-                navigate("/admin/login");
-                return;
-            }
-
-
             navigate("/admin/users");
         } catch (error: any) {
             enqueueSnackbar("Cập nhật thất bại: " + error.message, { variant: "error" });

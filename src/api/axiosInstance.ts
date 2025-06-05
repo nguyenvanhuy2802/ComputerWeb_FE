@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use((config) => {
         "/auth/reset-password",
     ];
 
-    const shouldExclude =  isPublicProductApi ||excludeAuthPaths.some(path => config.url?.includes(path));
+    const shouldExclude =excludeAuthPaths.some(path => config.url?.includes(path));
     if (token && !shouldExclude) {
         config.headers.Authorization = `Bearer ${token}`;
     }

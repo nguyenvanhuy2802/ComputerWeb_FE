@@ -1,4 +1,12 @@
 import React, { useEffect, useState } from "react";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ReplayIcon from '@mui/icons-material/Replay';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import {
     Box,
     MenuItem,
@@ -13,8 +21,8 @@ import {
     Paper, Stack, useTheme,
 } from "@mui/material";
 import {DataGrid, GridColDef, GridPaginationModel, GridRenderCellParams} from "@mui/x-data-grid";
-import { getAllOrders, updateOrderStatus } from "../../../api/orderApi";
-import { Order, OrderDTO, OrderStatus } from "../../../types/Order";
+import { getAllOrdersAdmin, updateOrderStatus } from "../../../api/orderApi";
+import { OrderAdmin, OrderDTO, OrderStatus } from "../../../types/Order";
 import { useSnackbar } from "notistack";
 
 const statusLabels: Record<OrderStatus, string> = {
@@ -26,10 +34,55 @@ const statusLabels: Record<OrderStatus, string> = {
     CANCELED: "Đã hủy",
     RETURNED: "Trả hàng",
 };
-
+const statusStyles: Record<OrderStatus, { color: string; bgColor: string; icon: React.ReactNode }> = {
+    PENDING: {
+        color: "#ff9800",
+        bgColor: "#fff3e0",
+        icon: <HourglassEmptyIcon fontSize="small" />,
+    },
+    CONFIRMED: {
+        color: "#1976d2",
+        bgColor: "#e3f2fd",
+        icon: <AssignmentTurnedInIcon fontSize="small" />,
+    },
+    PACKAGING: {
+        color: "#9c27b0",
+        bgColor: "#f3e5f5",
+        icon: <InventoryIcon fontSize="small" />,
+    },
+    SHIPPED: {
+        color: "#009688",
+        bgColor: "#e0f2f1",
+        icon: <LocalShippingIcon fontSize="small" />,
+    },
+    COMPLETED: {
+        color: "#4caf50",
+        bgColor: "#e8f5e9",
+        icon: <DoneAllIcon fontSize="small" />,
+    },
+    CANCELED: {
+        color: "#f44336",
+        bgColor: "#ffebee",
+        icon: <CancelIcon fontSize="small" />,
+    },
+    RETURNED: {
+        color: "#795548",
+        bgColor: "#efebe9",
+        icon: <ReplayIcon fontSize="small" />,
+    },
+};
+const allowedTransitions: Record<OrderStatus, OrderStatus[]> = {
+    PENDING: ["CONFIRMED", "CANCELED"],
+    CONFIRMED: ["PACKAGING", "CANCELED"],
+    PACKAGING: ["SHIPPED", "CANCELED"],
+    SHIPPED: ["COMPLETED", "CANCELED"],
+    COMPLETED: ["RETURNED"],
+    CANCELED: [],
+    RETURNED: [],
+};
 const OrderListPage: React.FC = () => {
     const theme = useTheme();
-    const [orders, setOrders] = useState<Order[]>([]);
+    const [orders, setOrders] = useState<OrderAdmin[]>([]);
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -44,7 +97,7 @@ const OrderListPage: React.FC = () => {
         const fetchOrders = async () => {
 
             try {
-                const data = await getAllOrders();
+                const data = await getAllOrdersAdmin();
                 setOrders(data);
             } catch (error: any) {
                 enqueueSnackbar("Lỗi khi tải đơn hàng: " + error.message, { variant: "error" });
@@ -105,27 +158,54 @@ const OrderListPage: React.FC = () => {
         {
             field: "status",
             headerName: "Trạng thái",
-            flex: 1.2,
-            renderCell: (params: GridRenderCellParams<OrderDTO>) => (
-                <Select
-                    value={params.row.status}
-                    onChange={(e) =>
-                        requestStatusChange(Number(params.row.orderId), e.target.value as OrderStatus)
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                        backgroundColor: "#f5f5f5",
-                        borderRadius: "4px",
-                    }}
-                >
-                    {Object.entries(statusLabels).map(([value, label]) => (
-                        <MenuItem key={value} value={value}>
-                            {label}
-                        </MenuItem>
-                    ))}
-                </Select>
-            ),
+            flex: 1.5,
+            renderCell: (params: GridRenderCellParams<OrderDTO>) => {
+                const currentStatus = params.row.status;
+                const validNextStatuses = allowedTransitions[currentStatus];
+                const style = statusStyles[currentStatus];
+
+                return (
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        gap={1}
+                        sx={{
+                            backgroundColor: style.bgColor,
+                            borderRadius: 1,
+                            px: 1,
+                            py: 0.5,
+                            fontWeight: "bold",
+                            color: style.color,
+                        }}
+                    >
+                        {style.icon}
+                        <Select
+                            value={currentStatus}
+                            onChange={(e) =>
+                                requestStatusChange(Number(params.row.orderId), e.target.value as OrderStatus)
+                            }
+                            size="small"
+                            variant="standard"
+                            disableUnderline
+                            disabled={validNextStatuses.length === 0}
+                            sx={{
+                                fontWeight: "bold",
+                                color: style.color,
+                                minWidth: 120,
+                                backgroundColor: "transparent",
+                                "& .MuiSelect-icon": { color: style.color },
+                            }}
+                        >
+                            <MenuItem value={currentStatus}>{statusLabels[currentStatus]}</MenuItem>
+                            {validNextStatuses.map((status) => (
+                                <MenuItem key={status} value={status}>
+                                    {statusLabels[status]}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </Box>
+                );
+            },
         },
         {
             field: "orderDate",
