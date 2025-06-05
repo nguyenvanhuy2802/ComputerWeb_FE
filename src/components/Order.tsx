@@ -7,6 +7,7 @@ import { getPaymentsByOrderId } from "../api/paymentApi";
 import { Order } from "../types/Order";
 import "../css/orders.css";
 import OrderCard from "./OrderCard";
+import {Link} from "react-router-dom";
 
 type OrderWithPayment = Order & {
     paymentMethod?: string;
@@ -16,7 +17,6 @@ type OrderWithPayment = Order & {
 
 const Orders: React.FC = () => {
     const { userId } = useUser();
-    const [orders, setOrders] = useState<OrderWithPayment[]>([]);
     const [currentOrders, setCurrentOrders] = useState<OrderWithPayment[]>([]);
     const [pastOrders, setPastOrders] = useState<OrderWithPayment[]>([]);
     const [showModal, setShowModal] = useState(false);
@@ -69,6 +69,18 @@ const Orders: React.FC = () => {
 
     return (
         <div className="container orders-wrapper">
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb bg-white shadow-sm p-3 rounded">
+                    <li className="breadcrumb-item">
+                        <Link to="/" className="text-decoration-none">
+                            Trang chủ
+                        </Link>
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                       Đơn hàng
+                    </li>
+                </ol>
+            </nav>
             <h2 className="text-center mb-5 text-uppercase fw-bold">Đơn hàng của bạn</h2>
 
             {currentOrders.length === 0 && pastOrders.length === 0 ? (
@@ -80,7 +92,7 @@ const Orders: React.FC = () => {
                             <h4 className="mb-3 text-primary">Đơn hàng hiện tại</h4>
                             <div className="d-flex flex-column gap-4 mb-5">
                                 {currentOrders.map((order) => (
-                                    <OrderCard key={order.orderId} order={order} onViewDetails={handleViewDetails} />
+                                    <OrderCard key={order.orderId} order={order} onViewDetails={handleViewDetails}/>
                                 ))}
                             </div>
                         </>
@@ -91,7 +103,7 @@ const Orders: React.FC = () => {
                             <h4 className="mb-3 text-secondary">Lịch sử đơn hàng</h4>
                             <div className="d-flex flex-column gap-4">
                                 {pastOrders.map((order) => (
-                                    <OrderCard key={order.orderId} order={order} onViewDetails={handleViewDetails} />
+                                    <OrderCard key={order.orderId} order={order} onViewDetails={handleViewDetails}/>
                                 ))}
                             </div>
                         </>

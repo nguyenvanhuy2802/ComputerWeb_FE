@@ -19,7 +19,7 @@ type PaymentMethod =
 
 const Payment: React.FC = () => {
     const location = useLocation();
-    const { cartItems, many } = location.state || {};
+    const { cartItems, many=true } = location.state || {};
     const { userId } = useUser();
     const [user, setUser] = useState<any>(null);
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("CASH_ON_DELIVERY");
@@ -68,7 +68,7 @@ const Payment: React.FC = () => {
                 };
 
                 await createOrderItem(newOrderItem);
-                if(many === false) {
+                if(many === true) {
                     await deleteCartItem(item.cartItemId);
                 }
             }

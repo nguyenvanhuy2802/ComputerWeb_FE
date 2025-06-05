@@ -1,5 +1,5 @@
 import {axiosInstance} from "./axiosInstance";
-import {Payment} from "../types/Payment";
+import {Payment, QRPayment} from "../types/Payment";
 
 export const createPayment = async (data:Payment ) => {
     const response = await axiosInstance.post("/payments", data);
@@ -10,3 +10,8 @@ export const getPaymentsByOrderId = async (orderId: number ) => {
     const response = await axiosInstance.get(`/payments/order/${orderId}`);
     return response.data;
 };
+
+export const generateQR = async (data: QRPayment) => {
+    const response = await axiosInstance.post("qr/generate", data);
+    return response.data;
+}

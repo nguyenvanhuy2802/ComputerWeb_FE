@@ -4,20 +4,23 @@ import LoginForm from "../components/LoginForm";
 import {login} from "../api/authApi";
 import {useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
+import {useUser} from "../context/UserContext";
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
+    const {updateToken} = useUser();
+
     const handleLogin = async (data: LoginData) => {
         try {
             const response = await login(data);
 
             if (response.success) {
                 toast.success("Đăng nhập thành công!");
-
-                localStorage.setItem("token", response.data);
-                console.log("token:" , response.data);
+                const token = response.data;
+                localStorage.setItem("token", token);
+                console.log("token:", token);
                 localStorage.setItem("username", data.username);
-
+                updateToken(token);
                 navigate("/");
             } else {
                 toast.error(`Đăng nhập thất bại: ${response.message}`);

@@ -1,0 +1,27 @@
+.detail-wrapper {
+    padding-top: clamp(100px, 30vh, 160px);
+    padding-bottom: clamp(100px, 10vh, 160px);
+}
+.card-title {
+    font-size: 1.75rem;
+}
+
+.card-img-top {
+    max-height: 450px;
+    object-fit: contain;
+}
+.review-section {
+    margin-top: 40px;
+}
+.review-section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.review-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
