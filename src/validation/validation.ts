@@ -104,7 +104,24 @@ export function validateEditUserData(formData: Omit<User, "userId" | "createdAt"
 
     return errors;
 }
+export function validateChangeInforUserData(formData: Omit<User, "userId" | "createdAt"|"role"|"username">): ValidationErrors {
+    const errors: ValidationErrors = {};
 
+    if (!formData.name || formData.name.trim() === "") {
+        errors.name = "Vui lòng nhập họ tên.";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(formData.email)) {
+        errors.email = "Email không hợp lệ.";
+    }
+
+    if (formData.phone && !/^[0-9]{9,12}$/.test(formData.phone)) {
+        errors.phone = "Số điện thoại không hợp lệ.";
+    }
+
+    return errors;
+}
 export function validateProductData(formData: ProductDTO): ValidationErrors {
     const errors: ValidationErrors = {};
 

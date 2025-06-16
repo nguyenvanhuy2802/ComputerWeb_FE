@@ -69,7 +69,9 @@ const Header: React.FC = () => {
                         <div className="site-header-actions">
                             {isLoggedIn ? (
                                 <div className="site-login-section">
-                                    <FaUser/>
+                                    <Link to="/information" className="site-sub-link-b">
+                                        <FaUser style={{ marginRight: '6px' }} />
+                                    </Link>
                                     <div>
                                         <div>Xin chào, <strong>{username}</strong></div>
                                         <Link
