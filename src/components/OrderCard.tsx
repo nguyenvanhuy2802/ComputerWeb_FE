@@ -59,7 +59,7 @@ const OrderCard: React.FC<{
         </div>
         <div className="row gy-2">
             <div className="col-md-6">
-                <p><strong>Người mua:</strong> {order.buyerName}</p>
+                <p translate="no"><strong>Người mua:</strong> {order.buyerName}</p>
                 <p><strong>Ngày đặt:</strong> {new Date(order.orderDate).toLocaleString()}</p>
             </div>
             <div className="col-md-6">

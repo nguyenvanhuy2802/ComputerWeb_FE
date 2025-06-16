@@ -102,7 +102,7 @@ const Payment: React.FC = () => {
                     <div key={item.product.productId} className="card mb-3 shadow-sm">
                         <div className="row g-0 align-items-center">
                             <div className="col-md-2">
-                                <img
+                                <img translate="no"
                                     src={item.product?.productImage}
                                     alt={item.product?.name}
                                     className="img-fluid rounded-start"
@@ -110,9 +110,9 @@ const Payment: React.FC = () => {
                             </div>
                             <div className="col-md-10">
                                 <div className="card-body">
-                                    <h5 className="card-title">{item.product?.name}</h5>
+                                    <h5 className="card-title" translate="no">{item.product?.name}</h5>
                                     <p className="card-text mb-1">Số lượng: {item.quantity}</p>
-                                    <p className="card-text">
+                                    <p className="card-text" >
                                         Giá:{" "}
                                         <strong className="text-danger">
                                             {item.product?.price.toLocaleString()}₫
@@ -141,7 +141,7 @@ const Payment: React.FC = () => {
                     <div className="card p-3 shadow-sm">
                         <div className="mb-2">
                             <label className="form-label"><strong>Tên:</strong></label>
-                            <input
+                            <input translate="no"
                                 type="text"
                                 className="form-control"
                                 value={user.name}
@@ -150,7 +150,7 @@ const Payment: React.FC = () => {
                         </div>
                         <div className="mb-2">
                             <label className="form-label"><strong>Email:</strong></label>
-                            <input
+                            <input translate="no"
                                 type="email"
                                 className="form-control"
                                 value={user.email}
@@ -159,7 +159,7 @@ const Payment: React.FC = () => {
                         </div>
                         <div className="mb-2">
                             <label className="form-label"><strong>Điện thoại:</strong></label>
-                            <input
+                            <input translate="no"
                                 type="tel"
                                 className="form-control"
                                 value={user.phone}
@@ -168,7 +168,7 @@ const Payment: React.FC = () => {
                         </div>
                         <div className="mb-2">
                             <label className="form-label"><strong>Địa chỉ:</strong></label>
-                            <textarea
+                            <textarea translate="no"
                                 className="form-control"
                                 rows={2}
                                 value={user.address}
@@ -185,7 +185,7 @@ const Payment: React.FC = () => {
             {/* Phương thức thanh toán */}
             <div className="mb-4">
                 <h4 className="mb-3">Phương thức thanh toán</h4>
-                <select
+                <select translate="no"
                     className="form-select"
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}

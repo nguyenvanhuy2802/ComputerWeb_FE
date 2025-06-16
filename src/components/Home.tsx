@@ -156,7 +156,7 @@ const Home: React.FC = () => {
                                         }}
                                     >
                                         <div className="card-title-container p-3 bg-dark bg-opacity-50 w-100">
-                                            <h5 className="card-title text-white text-center">{cat.name}</h5>
+                                            <h5 className="card-title text-white text-center" translate="no">{cat.name}</h5>
                                         </div>
                                     </div>
                                 </Link>
@@ -177,7 +177,7 @@ const Home: React.FC = () => {
                             <div key={p.productId} className="col-12 col-sm-6 col-md-4">
                                 <div className="card h-100 shadow border-0 rounded-3 product-card">
                                     <Link to={`/product/${p.productId}`} className="text-decoration-none">
-                                        <img
+                                        <img translate="no"
                                             src={p.productImage}
                                             alt={p.name}
                                             className="card-img-top product-card-img rounded-top"
@@ -186,7 +186,7 @@ const Home: React.FC = () => {
                                         />
                                     </Link>
                                     <div className="card-body d-flex flex-column">
-                                        <h5 className="card-title">{p.name}</h5>
+                                        <h5 className="card-title" translate="no">{p.name}</h5>
                                         <div className="rating mb-2">
                                             <div className="d-flex align-items-center mb-1">
                                                 {[1, 2, 3, 4, 5].map((star) => (
@@ -285,7 +285,7 @@ const Home: React.FC = () => {
                                 <div className="modal-body">
                                     {/* Thông tin sản phẩm */}
                                     <div className="d-flex align-items-center mb-3">
-                                        <img
+                                        <img translate="no"
                                             src={selectedProduct.productImage}
                                             alt={selectedProduct.name}
                                             className="img-fluid rounded-circle"
@@ -297,7 +297,7 @@ const Home: React.FC = () => {
                                             }}
                                         />
                                         <div>
-                                            <h5>{selectedProduct.name}</h5>
+                                            <h5 translate="no">{selectedProduct.name}</h5>
                                             <p className="text-danger fw-bold">{selectedProduct.price.toLocaleString()} VND</p>
                                         </div>
                                     </div>
