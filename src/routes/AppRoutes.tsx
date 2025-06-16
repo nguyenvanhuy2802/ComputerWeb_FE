@@ -1,5 +1,4 @@
 import React from "react";
-
 import {Route, Routes} from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
@@ -19,6 +18,8 @@ import EditUserPage from "../admin/pages/users/EditUserPage";
 import AddProductPage from "../admin/pages/products/AddProductPage";
 import EditProductPage from "../admin/pages/products/EditProductPage";
 import ProductDetailPage from "../pages/ProductDetailPage";
+import CategoryPage from "../pages/CategoryPage";
+import SearchPage from "../pages/SearchPage";
 
 
 const AppRoutes: React.FC = () => {
@@ -26,37 +27,54 @@ const AppRoutes: React.FC = () => {
         <Routes>
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/register" element={<RegisterPage/>}/>
-            <Route path="/cart" element={<CartPage/>}/>
-            <Route path="/payment" element={<PaymentPage/>}/>
-            <Route path="/orders" element={<OrderPage/>}/>
             <Route path="/product/:id" element={<ProductDetailPage/>}/>
+            <Route path="/category/:id" element={<CategoryPage/>}/>
+            <Route path="/search" element={<SearchPage/>}/>
+            <Route path="/" element={<HomePage/>}/>
             <Route
-                path="/"
+                path="/cart"
                 element={
-                //     <PrivateRoute>
-                        <HomePage/>
-                    // </PrivateRoute>
+                    <PrivateRoute>
+                        <CartPage/>
+                    </PrivateRoute>
                 }
             />
-            <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route
+                path="/payment"
+                element={
+                    <PrivateRoute>
+                        <PaymentPage/>
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/orders"
+                element={
+                    <PrivateRoute>
+                        <OrderPage/>
+                    </PrivateRoute>
+                }
+            />
+
+            <Route path="/admin/login" element={<AdminLoginPage/>}/>
 
             {/* Trang dashboard được bảo vệ bằng AdminRoute */}
             <Route path="/admin" element={
                 <PrivateRoute>
-                    <AdminLayout />
+                    <AdminLayout/>
                 </PrivateRoute>
             }>
-                <Route index element={<UserListPage />} />
-                <Route path="users" element={<UserListPage/>} />
-                <Route path="users/create" element={<AddUserPage />} />
-                <Route path="users/edit/:id" element={<EditUserPage />} />
-                <Route path="products" element={<ProductListPage/>} />
-                <Route path="products/create" element={<AddProductPage/>} />
-                <Route path="products/edit/:id" element={<EditProductPage/>} />
-                <Route path="orders" element={<OrderListPage/>} />
+                <Route index element={<UserListPage/>}/>
+                <Route path="users" element={<UserListPage/>}/>
+                <Route path="users/create" element={<AddUserPage/>}/>
+                <Route path="users/edit/:id" element={<EditUserPage/>}/>
+                <Route path="products" element={<ProductListPage/>}/>
+                <Route path="products/create" element={<AddProductPage/>}/>
+                <Route path="products/edit/:id" element={<EditProductPage/>}/>
+                <Route path="orders" element={<OrderListPage/>}/>
 
             </Route>
-            <Route path="/forgot-password" element={<ForgotPasswordPage/>} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
 
         </Routes>
     );

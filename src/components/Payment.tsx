@@ -68,7 +68,7 @@ const Payment: React.FC = () => {
                 };
 
                 await createOrderItem(newOrderItem);
-                if(many === true) {
+                if(many) {
                     await deleteCartItem(item.cartItemId);
                 }
             }

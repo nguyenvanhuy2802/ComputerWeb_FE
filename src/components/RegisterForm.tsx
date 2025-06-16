@@ -74,6 +74,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onRegister}) => {
         }
     };
     return (
+        <div className="container register-wrapper">
         <div className="register-form">
             {loading && (
                 <div className="loading-overlay">
@@ -120,6 +121,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onRegister}) => {
                     </form>
                 </div>
             </div>
+        </div>
         </div>
     );
 };

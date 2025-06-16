@@ -32,7 +32,7 @@ const ModalReview: React.FC<ModalReviewProps> = ({
 
         try {
             await createReview(data);
-            onReviewSuccess(); // để reload lại danh sách review
+            onReviewSuccess(); // reload lại danh sách review
             onHide();
         } catch (err) {
             alert("Lỗi khi gửi đánh giá.");
@@ -49,18 +49,19 @@ const ModalReview: React.FC<ModalReviewProps> = ({
                 <div className="mb-3">
                     <strong>Đánh giá:</strong>
                     <div>
-                        {[1, 2, 3, 4, 5].map((star) => (
-                            <i
-                                key={star}
-                                className={`fa-star ${
-                                    (hover || rating) >= star ? "fas text-warning" : "far text-muted"
-                                } me-1`}
-                                onClick={() => setRating(star)}
-                                onMouseEnter={() => setHover(star)}
-                                onMouseLeave={() => setHover(0)}
-                                style={{ cursor: "pointer" }}
-                            />
-                        ))}
+                        {[1, 2, 3, 4, 5].map((star) => {
+                            const filled = hover ? hover >= star : rating >= star;
+                            return (
+                                <i
+                                    key={star}
+                                    className={`${filled ? "fas text-warning" : "far text-muted"} fa-star me-1`}
+                                    onClick={() => setRating(star)}
+                                    onMouseEnter={() => setHover(star)}
+                                    onMouseLeave={() => setHover(0)}
+                                    style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
                 <Form.Group controlId="reviewText" className="mb-3">

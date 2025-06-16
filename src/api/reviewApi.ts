@@ -1,5 +1,5 @@
 import {axiosInstance} from "./axiosInstance";
-import {Review} from "../types/Review";
+import {ReviewDTO} from "../types/Review";
 
 export const getAverageRatingByProductId = async (productId: number): Promise<number> => {
     const response = await axiosInstance.get(`/reviews/product/${productId}/average`);

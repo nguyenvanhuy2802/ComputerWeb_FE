@@ -1,6 +1,5 @@
-import {Product, ProductDTO} from "../types/Product";
+import {Product, ProductDTO, ProductWithRating} from "../types/Product";
 import {axiosInstance} from "./axiosInstance";
-import {QRPayment} from "../types/Payment";
 
 export const getAllProducts = async (): Promise<Product[]> => {
     const response = await axiosInstance.get("/products");
@@ -20,5 +19,18 @@ export const getProductById = async (id: number): Promise<Product> => {
     const response = await axiosInstance.get(`/products/${id}`);
     return response.data as Product;
 };
+export const searchProductWithRating = async (
+    query: string,
+    priceRange?: string,
+    sortBy?: string
+): Promise<ProductWithRating[]> => {
+    const response = await axiosInstance.get<ProductWithRating[]>('/products/search-filter', {
+        params: { query, priceRange, sortBy }
+    });
+    return response.data;
+};
 
-
+export const getPaginatedProducts = async (page: number, size: number = 10) => {
+    const response = await axiosInstance.get(`/products/paginated?page=${page}&size=${size}`);
+    return response.data;
+};
