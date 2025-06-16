@@ -6,6 +6,8 @@ import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {saveCart} from "../api/cartApi";
 import {useNavigate} from "react-router-dom";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 
 const RegisterPage: React.FC = () => {
@@ -63,8 +65,10 @@ const RegisterPage: React.FC = () => {
         } };
     return (
         <>
+            <Header/>
             <RegisterForm onRegister={handleRegister}/>
             <ToastContainer position="top-right" autoClose={3000}/>
+            <Footer/>
         </>
 
     );

@@ -2,13 +2,18 @@ import React from "react";
 import {LoginData} from "../types/User";
 import LoginForm from "../components/LoginForm";
 import {login} from "../api/authApi";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import {useUser} from "../context/UserContext";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const {updateToken} = useUser();
+    const from = location.state?.from?.pathname || "/";
+
 
     const handleLogin = async (data: LoginData) => {
         try {
@@ -21,9 +26,7 @@ const LoginPage: React.FC = () => {
                 console.log("token:", token);
                 localStorage.setItem("username", data.username);
                 updateToken(token);
-                navigate("/");
-            } else {
-                toast.error(`Đăng nhập thất bại: ${response.message}`);
+                navigate(from, {replace: true});
             }
         } catch (error: any) {
             if (error.response?.status === 401) {
@@ -35,8 +38,10 @@ const LoginPage: React.FC = () => {
     };
     return (
         <>
+            <Header/>
             <LoginForm onLogin={handleLogin}/>
             <ToastContainer position="top-right" autoClose={3000}/>
+            <Footer/>
         </>
 
     );

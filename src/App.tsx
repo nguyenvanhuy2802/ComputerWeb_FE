@@ -12,7 +12,7 @@ function App() {
        <SnackbarProvider maxSnack={3}>
         <UserProvider>
             <CartProvider>
-                <Router>
+                <Router>    
                     <AppRoutes/>
                 </Router>
             </CartProvider>

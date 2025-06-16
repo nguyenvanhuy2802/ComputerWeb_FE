@@ -3,16 +3,22 @@ import "../css/header.css";
 import {FaBars, FaBell, FaClipboardList, FaSearch, FaShoppingCart, FaUser} from "react-icons/fa";
 import {Link, useNavigate} from "react-router-dom";
 import {useCart} from "../context/CartContext";
-import { MdReceiptLong } from "react-icons/md";
-
+import {MdReceiptLong} from "react-icons/md";
 
 
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState("");
-    const { cartCount, refreshCartCount , setCartCount} = useCart();
+    const {cartCount, refreshCartCount, setCartCount} = useCart();
     const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState("");
 
+
+    const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && searchTerm.trim()) {
+            navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
+        }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -51,8 +57,9 @@ const Header: React.FC = () => {
                 <div className="site-main-header">
                     <div className="site-container">
                         <div className="site-logo">
-                            <img src="/logo.png" alt="Logo"/>
-                        </div>
+                            <Link to="/">
+                                <img src="/logo.png" alt="Logo"/>
+                            </Link></div>
 
                         <div className="site-menu-icon">
                             <FaBars/>
@@ -62,7 +69,13 @@ const Header: React.FC = () => {
 
                         <div className="site-search-bar">
                             <FaSearch className="search-icon"/>
-                            <input type="text" placeholder="Bạn cần tìm gì hôm nay?"/>
+                            <input
+                                type="text"
+                                placeholder="Bạn cần tìm gì hôm nay?"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onKeyDown={handleSearch}
+                            />
                         </div>
 
                         <div className="site-header-actions">

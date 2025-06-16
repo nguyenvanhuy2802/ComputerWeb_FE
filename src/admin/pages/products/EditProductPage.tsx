@@ -36,7 +36,7 @@ const EditProductPage: React.FC = () => {
                     getAllCategories(),
                 ]);
                 // Sửa chỗ này
-                setFormData(productRes);
+                setFormData(productRes.data);
                 setCategories(categoriesRes);
             } catch (error) {
                 enqueueSnackbar("Lỗi khi tải dữ liệu", { variant: "error" });

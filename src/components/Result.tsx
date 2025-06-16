@@ -1,25 +1,24 @@
 import React, {useEffect, useState} from "react";
-import {Category} from "../types/Category";
+import "../css/result.css";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {Product} from "../types/Product";
-import {getAllCategories} from "../api/categoryApi";
-import {getPaginatedProducts, getProductById} from "../api/productApi";
-import {Link, useNavigate} from "react-router-dom";
-import "../css/home.css";
-import {getAverageRatingByProductId, getReviewCountByProductId} from "../api/reviewApi";
-import {saveCartItem} from "../api/cartItemApi";
-import {toast} from "react-toastify";
+import {getProductById, searchProductWithRating} from "../api/productApi";
 import {useCart} from "../context/CartContext";
 import {useUser} from "../context/UserContext";
+import {saveCartItem} from "../api/cartItemApi";
+import {toast} from "react-toastify";
 import {Item} from "../types/CartItem";
+import FilterBar from "./FilterBar";
 import {useRequireLogin} from "../hooks/useRequireLogin";
 
 interface EnrichedItem extends Item {
     product?: Product;
 }
 
-const Home: React.FC = () => {
-    const [categories, setCategories] = useState<Category[]>([]);
+const Result: React.FC = () => {
+    const location = useLocation();
     const [products, setProducts] = useState<Product[]>([]);
+    const query = new URLSearchParams(location.search).get("query");
     const [averageRatings, setAverageRatings] = useState<{ [key: number]: number }>({});
     const [reviewCounts, setReviewCounts] = useState<{ [key: number]: number }>({});
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -27,12 +26,12 @@ const Home: React.FC = () => {
     const [quantity, setQuantity] = useState(1);
     const [modalAction, setModalAction] = useState<"buy" | "add-to-cart">("buy");
     const {refreshCartCount} = useCart();
-    const {userId, cart} = useUser();
+    const {cart} = useUser();
     const navigate = useNavigate();
-    const [page, setPage] = useState(0);
-    const [size] = useState(5);
-    const [hasMore, setHasMore] = useState(true);
+    const [priceRange, setPriceRange] = useState("");
+    const [sortBy, setSortBy] = useState("");
     const requireLogin = useRequireLogin();
+
 
     const handleShowModal = (product: Product) => {
         setSelectedProduct(product);
@@ -51,7 +50,6 @@ const Home: React.FC = () => {
             toast.error("Không tìm thấy giỏ hàng!");
             return;
         }
-
         try {
             if (modalAction === "add-to-cart") {
                 await saveCartItem(quantity, cart.cartId, selectedProduct.productId);
@@ -81,94 +79,45 @@ const Home: React.FC = () => {
         }
     };
 
-
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const catRes = await getAllCategories();
-                setCategories(catRes);
-                loadMoreProducts();
-            } catch (error) {
-                console.error("Lỗi khi tải dữ liệu:", error);
+        const fetchProducts = async () => {
+            if (query) {
+                try {
+                    const list = await searchProductWithRating(query, priceRange, sortBy);
+                    setProducts(list);
+                } catch (err) {
+                    console.error("Lỗi tìm kiếm:", err);
+                }
             }
         };
+        fetchProducts();
+    }, [query, priceRange, sortBy]);
 
-        fetchData();
-    }, []);
-
-    const loadMoreProducts = async () => {
-        try {
-            const data = await getPaginatedProducts(page, size);
-            const newProducts: Product[] = data.content;
-            const isLastPage: boolean = data.last;
-
-            // Gộp sản phẩm mới vào danh sách cũ
-            setProducts(prev => {
-                const existingIds = new Set(prev.map(p => p.productId));
-                const filteredNew = newProducts.filter(p => !existingIds.has(p.productId));
-                return [...prev, ...filteredNew];
-            });
-
-            setHasMore(!isLastPage);
-            setPage(prev => prev + 1);
-
-            // Lấy rating cho sản phẩm mới
-            const ratingsPromises = newProducts.map(p =>
-                getAverageRatingByProductId(p.productId).then(rating => [p.productId, rating])
-            );
-            const ratingsEntries = await Promise.all(ratingsPromises);
-            setAverageRatings(prev => ({...prev, ...Object.fromEntries(ratingsEntries)}));
-
-            const countPromises = newProducts.map(p =>
-                getReviewCountByProductId(p.productId).then(count => [p.productId, count])
-            );
-            const countEntries = await Promise.all(countPromises);
-            setReviewCounts(prev => ({...prev, ...Object.fromEntries(countEntries)}));
-
-        } catch (error) {
-            console.error("Lỗi khi tải sản phẩm phân trang:", error);
-        }
-    };
 
     return (
-        <div className="container home-container">
-            {/* Mục danh mục sản phẩm */}
-            <section>
-                <h2 className="mb-5 text-center fw-bold">Danh Mục Sản Phẩm</h2>
-                <div className="row g-4">
-                    {categories.length > 0 ? (
-                        categories.map((cat) => (
-                            <div key={cat.categoryId} className="col-12 col-sm-6 col-md-4">
-                                <Link
-                                    to={`/category/${cat.categoryId}`}
-                                    className="text-decoration-none"
-                                >
-                                    <div
-                                        className="category-card shadow rounded overflow-hidden"
-                                        style={{
-                                            backgroundImage: `url('${cat.categoryImage}')`,
-                                            backgroundSize: "cover",
-                                            backgroundPosition: "center",
-                                            height: "200px",
-                                            display: "flex",
-                                            alignItems: "flex-end",
-                                            transition: "transform 0.3s ease",
-                                        }}
-                                    >
-                                        <div className="card-title-container p-3 bg-dark bg-opacity-50 w-100">
-                                            <h5 className="card-title text-white text-center">{cat.name}</h5>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))
-                    ) : (
-                        <div className="text-center text-muted">Không có danh mục sản phẩm nào.</div>
-                    )}
-                </div>
-            </section>
+        <div className="container search-wrapper">
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb bg-white shadow-sm p-3 rounded">
+                    <li className="breadcrumb-item">
+                        <Link to="/" className="text-decoration-none">
+                            Trang chủ
+                        </Link>
+                    </li>
 
-            {/* Mục danh sách sản phẩm */}
+                    <li className="breadcrumb-item active" aria-current="page">
+                        Kết quả tìm kiếm : "{query}"
+                    </li>
+                </ol>
+            </nav>
+            <h2>Kết quả tìm kiếm cho: "{query}"</h2>
+
+            <FilterBar
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+            />
+
             <section className="mt-5">
                 <h2 className="mb-5 text-center fw-bold">Danh Sách Sản Phẩm</h2>
                 <div className="row g-4">
@@ -244,34 +193,6 @@ const Home: React.FC = () => {
                     )}
                 </div>
             </section>
-
-            <div className="text-center mt-4 position-relative">
-                {hasMore && (
-                    <div className="text-center mt-3">
-                        <button onClick={loadMoreProducts} className="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
-                            <i className="fa fa-plus me-2"></i> Xem thêm
-                        </button>
-                    </div>
-                )}
-
-                {/* Nút lên đầu trang */}
-                <button
-                    className="btn btn-outline-secondary position-fixed"
-                    onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}
-                    style={{
-                        bottom: "120px",
-                        right: "20px",
-                        borderRadius: "50%",
-                        width: "48px",
-                        height: "48px",
-                        zIndex: 1000,
-                        boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
-                    }}
-                    title="Quay lên đầu trang"
-                >
-                    <i className="fa fa-arrow-up"></i>
-                </button>
-            </div>
             {/* Modal hiển thị chi tiết sản phẩm */}
             {selectedProduct && (
                 <div className={`modal fade ${showModal ? "show d-block" : ""} custom-modal`} tabIndex={-1}>
@@ -327,7 +248,8 @@ const Home: React.FC = () => {
 
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Hủy
+                                    <button type="button" className="btn btn-secondary"
+                                            onClick={handleCloseModal}>Hủy
                                     </button>
                                     <button type="submit" className="btn btn-primary">Xác nhận</button>
                                 </div>
@@ -336,10 +258,7 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             )}
-
         </div>
-
     );
 };
-
-export default Home;
+export default Result;
