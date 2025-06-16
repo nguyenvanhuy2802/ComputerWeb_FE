@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {getProductById} from "../api/productApi";
 import {getAverageRatingByProductId, getReviewsByProductId} from "../api/reviewApi";
 import {Product} from "../types/Product";
@@ -11,6 +11,8 @@ import {useCart} from "../context/CartContext";
 import {Item} from "../types/CartItem";
 import {Review} from "../types/Review";
 import ModalReview from "./ModalReview";
+import {getCategoryById} from "../api/categoryApi";
+import {Category} from "../types/Category";
 
 interface EnrichedItem extends Item {
     product?: Product;
@@ -19,11 +21,13 @@ interface EnrichedItem extends Item {
 const ProductDetail: React.FC = () => {
     const {id} = useParams();
     const [product, setProduct] = useState<Product | null>(null);
+    const [category, setCategory] = useState<Category | null>(null);
     const [loading, setLoading] = useState(true);
     const [averageRating, setAverageRating] = useState<number | null>(null); // <-- Thêm dòng này
     const [quantity, setQuantity] = useState(1);
     const [modalAction, setModalAction] = useState<"buy" | "add-to-cart">("buy");
     const [showModal, setShowModal] = useState(false);
+    const [showDetailModal, setShowDetailModal] = useState(false);
     const {userId, cart} = useUser();
     const {refreshCartCount} = useCart();
     const navigate = useNavigate();
@@ -43,6 +47,9 @@ const ProductDetail: React.FC = () => {
             try {
                 const productData = await getProductById(Number(id));
                 setProduct(productData);
+
+                const categoryData = await getCategoryById(productData.categoryId);
+                setCategory(categoryData);
 
                 const rating = await getAverageRatingByProductId(Number(id));
                 setAverageRating(rating);
@@ -120,6 +127,24 @@ const ProductDetail: React.FC = () => {
 
     return (
         <div className="detail-wrapper">
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb bg-white shadow-sm p-3 rounded">
+                    <li className="breadcrumb-item">
+                        <Link to="/" className="text-decoration-none">
+                            Trang chủ
+                        </Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                        <Link to={`/category/${category?.categoryId}`} className="text-decoration-none">
+                            {category?.name || "Danh mục"}
+                        </Link>
+
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                      {product.name}
+                    </li>
+                </ol>
+            </nav>
             <div className="container my-5">
                 <div className="row g-4">
                     <div className="col-md-6">
@@ -193,8 +218,9 @@ const ProductDetail: React.FC = () => {
                 <h3 className="mb-4">Đánh giá & Bình luận</h3>
                 {/* Nút đánh giá */}
                 <div className="text-end mt-2 mb-3">
-                    <button className="btn btn-primary" onClick={() => setShowModal(true)} disabled={ reviews.some((review) => review.userId === userId)}>
-                        { reviews.some((review) => review.userId === userId) ? "Bạn đã đánh giá" : "Viết đánh giá & bình luận"}
+                    <button className="btn btn-primary" onClick={() => setShowDetailModal(true)}
+                            disabled={reviews.some((review) => review.userId === userId)}>
+                        {reviews.some((review) => review.userId === userId) ? "Bạn đã đánh giá" : "Viết đánh giá & bình luận"}
                     </button>
                 </div>
                 {/* Khu vực bình luận */}
@@ -207,7 +233,7 @@ const ProductDetail: React.FC = () => {
                             overflowY: (reviews.length > 3) ? "auto" : "visible",
                         }}
                     >
-                        { reviews.slice(0, 3).map((review) => (
+                        {reviews.slice(0, 3).map((review) => (
                             <div
                                 key={review.reviewId}
                                 className="border p-3 mb-3 rounded shadow-sm"
@@ -237,8 +263,8 @@ const ProductDetail: React.FC = () => {
 
                 {userId !== null && (
                     <ModalReview
-                        show={showModal}
-                        onHide={() => setShowModal(false)}
+                        show={showDetailModal}
+                        onHide={() => setShowDetailModal(false)}
                         productId={productId}
                         userId={userId}
                         onReviewSuccess={fetchReviews}

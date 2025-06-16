@@ -1,32 +1,46 @@
-/* Scope all styles inside .register-form */
-.register-form * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+.register-wrapper {
+    padding-top: clamp(100px, 30vh, 160px);
+    padding-bottom: clamp(100px, 10vh, 160px);
 }
 
-.register-form {
+.register-wrapper .register-form {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f6f9fc, #e9f3ff);
+    padding: 60px 20px;
+    width: 100%;
 }
 
 .register-form .register-container {
     width: 100%;
-    padding: 40px 20px;
+    max-width: 500px;
     display: flex;
     justify-content: center;
 }
 
 .register-form .register-box {
-    width: 450px;
+    width: 100%;
     background: #fff;
     padding: 40px 30px;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    position: relative; /* Needed for overlay */
+}
+
+/* Loading overlay only inside the form box */
+.register-form .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 16px;
 }
 
 .register-form h2 {

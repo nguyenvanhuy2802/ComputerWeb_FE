@@ -28,4 +28,12 @@
     align-items: center;
     z-index: 1050;
 }
+button.btn-outline-secondary {
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+button.btn-outline-secondary:hover {
+    background-color: #e9ecef;
+}
+
 
