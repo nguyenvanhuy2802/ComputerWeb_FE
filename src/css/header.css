@@ -217,5 +217,30 @@
         transform: scale(1);
     }
 }
+/* Google Translate Dropdown */
+.google-translate-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 6px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.google-translate-container .goog-te-combo {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.google-translate-container .goog-te-combo:focus {
+    border-color: #1e90ff;
+    box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.2);
+}
 
 

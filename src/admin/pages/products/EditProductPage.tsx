@@ -35,7 +35,6 @@ const EditProductPage: React.FC = () => {
                     getProductByIdAdmin(Number(id)),
                     getAllCategories(),
                 ]);
-                // Sửa chỗ này
                 setFormData(productRes.data);
                 setCategories(categoriesRes);
             } catch (error) {
@@ -148,6 +147,7 @@ const EditProductPage: React.FC = () => {
                     select
                     label="Danh mục"
                     name="categoryId"
+                    translate="no"
                     value={formData.categoryId}
                     onChange={handleChange}
                     fullWidth
@@ -155,12 +155,12 @@ const EditProductPage: React.FC = () => {
                     helperText={errors.categoryId}
                 >
                     {categories.map((category: any) => (
-                        <MenuItem key={category.categoryId} value={category.categoryId}>
+                        <MenuItem key={category.categoryId} value={category.categoryId} translate="no">
                             {category.name}
                         </MenuItem>
                     ))}
                 </TextField>
-                <Box mt={1} display="flex" justifyContent="center">
+                <Box mt={1} display="flex" justifyContent="center"  translate="no">
                     <img
                         src={formData.productImage || "/placeholder-image.png"}
                         alt="Product Preview"
@@ -185,5 +185,4 @@ const EditProductPage: React.FC = () => {
         </Box>
     );
 };
-
 export default EditProductPage;

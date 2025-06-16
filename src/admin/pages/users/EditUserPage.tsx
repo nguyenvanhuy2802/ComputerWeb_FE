@@ -14,6 +14,7 @@ import { User } from "../../../types/User";
 import isEqual from "lodash/isEqual";
 import { validateEditUserData, ValidationErrors } from "../../../validation/validation";
 import {getUserRoleFromToken,getUsernameFromToken} from "../../../utils/jwtUtils";
+import {uploadAvatar} from "../../../api/imageApi";
 
 const roles = [
     { value: "ADMIN", label: "ADMIN" },
@@ -24,6 +25,7 @@ const EditUserPage: React.FC = () => {
     const { id } = useParams();
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
+    const [uploading, setUploading] = useState(false);
 
     const [originalData, setOriginalData] = useState<User | null>(null);
     const [formData, setFormData] = useState<Omit<User, "userId" | "createdAt">>({
@@ -61,7 +63,21 @@ const EditUserPage: React.FC = () => {
         // Xóa lỗi khi user sửa field
         setErrors((prev) => ({ ...prev, [name]: "" }));
     };
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
 
+        setUploading(true);
+        try {
+            const imageUrl = await uploadAvatar(file);
+            setFormData((prev) => ({ ...prev, profileImage: imageUrl }));
+            enqueueSnackbar("Tải ảnh thành công!", { variant: "success" });
+        } catch (err) {
+            enqueueSnackbar("Lỗi khi tải ảnh!", { variant: "error" });
+        } finally {
+            setUploading(false);
+        }
+    };
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -163,6 +179,7 @@ const EditUserPage: React.FC = () => {
                     select
                     label="Vai trò"
                     name="role"
+                    translate="no"
                     value={formData.role}
                     onChange={handleChange}
                     fullWidth
@@ -170,7 +187,7 @@ const EditUserPage: React.FC = () => {
                     helperText={errors.role}
                 >
                     {roles.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
+                        <MenuItem key={option.value} value={option.value}  translate="no">
                             {option.label}
                         </MenuItem>
                     ))}
@@ -193,13 +210,19 @@ const EditUserPage: React.FC = () => {
                     multiline
                     rows={2}
                 />
-                <TextField
-                    label="URL ảnh đại diện"
-                    name="profileImage"
-                    value={formData.profileImage??""}
-                    onChange={handleChange}
-                    fullWidth
-                />
+                <Box mt={1} display="flex" justifyContent="center" >
+                    <img
+                        src={formData.profileImage || "/placeholder-image.png"}
+                        alt="Chưa có ảnh đại diện vui lòng chọn ảnh"
+                        width={200}
+                        height={200}
+                        style={{ objectFit: "cover", borderRadius: 8, border: "1px solid #ccc" }}
+                    />
+                </Box>
+                <Button variant="outlined" component="label" disabled={uploading}>
+                    {uploading ? "Đang tải ảnh..." : "Chọn ảnh đại diện"}
+                    <input type="file" hidden accept="image/*" onChange={handleFileChange} />
+                </Button>
 
                 <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
                     <Button type="submit" variant="contained" color="primary">

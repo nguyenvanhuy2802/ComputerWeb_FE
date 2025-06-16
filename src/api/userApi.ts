@@ -1,6 +1,6 @@
 
 import { axiosInstance } from "./axiosInstance";
-import {CreateUserData, User} from "../types/User";
+import {ChangePassReq, CreateUserData, User} from "../types/User";
 import {GridRenderCellParams} from "@mui/x-data-grid";
 import {OrderDTO, OrderStatus} from "../types/Order";
 import {MenuItem, Select} from "@mui/material";
@@ -57,4 +57,12 @@ export const getUserById = async (id: number): Promise<number> => {
     const response = await axiosInstance.get(`/users/${id}`);
     return response.data;
 };
+export const changePassword = async (id: string,data: ChangePassReq): Promise<void> => {
+ await axiosInstance.post(`/users/${id}/change-password`, data);
+};
+export const changeInfor = async (id: string, data: Partial<User>): Promise<any> => {
+    await axiosInstance.put(`/users/${id}/changeInfor`, data);
+
+};
+
 

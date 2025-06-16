@@ -3,8 +3,8 @@ import "../css/header.css";
 import {FaBars, FaBell, FaClipboardList, FaSearch, FaShoppingCart, FaUser} from "react-icons/fa";
 import {Link, useNavigate} from "react-router-dom";
 import {useCart} from "../context/CartContext";
-import {MdReceiptLong} from "react-icons/md";
-
+import { MdReceiptLong } from "react-icons/md";
+import GoogleTranslate from "../components/GoogleTranslate";
 
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -81,7 +81,9 @@ const Header: React.FC = () => {
                         <div className="site-header-actions">
                             {isLoggedIn ? (
                                 <div className="site-login-section">
-                                    <FaUser/>
+                                    <Link to="/information" className="site-sub-link-b">
+                                        <FaUser style={{ marginRight: '6px' }} />
+                                    </Link>
                                     <div>
                                         <div>Xin chào, <strong>{username}</strong></div>
                                         <Link
@@ -124,7 +126,7 @@ const Header: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-
+                            <GoogleTranslate />
                         </div>
 
                     </div>

@@ -6,7 +6,6 @@ import HomePage from "../pages/HomePage";
 import CartPage from "../pages/CartPage";
 import PaymentPage from "../pages/PaymentPage";
 import OrderPage from "../pages/OrderPage";
-import PrivateRoute from "./PrivateRoute";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import AdminLoginPage from "../admin/AdminLoginPage";
 import AdminLayout from "../admin/AdminLayout";
@@ -18,9 +17,11 @@ import EditUserPage from "../admin/pages/users/EditUserPage";
 import AddProductPage from "../admin/pages/products/AddProductPage";
 import EditProductPage from "../admin/pages/products/EditProductPage";
 import ProductDetailPage from "../pages/ProductDetailPage";
+import AdminRoute from "./AdminRoute";
+import InformationPage from "../components/InformationPage";
 import CategoryPage from "../pages/CategoryPage";
 import SearchPage from "../pages/SearchPage";
-import AdminRoute from "./AdminRoute";
+
 
 
 const AppRoutes: React.FC = () => {
@@ -62,7 +63,7 @@ const AppRoutes: React.FC = () => {
             {/* Trang dashboard được bảo vệ bằng AdminRoute */}
             <Route path="/admin" element={
                 <AdminRoute>
-                    <AdminLayout/>
+                    <AdminLayout />
                 </AdminRoute>
             }>
                 <Route index element={<UserListPage/>}/>
@@ -75,7 +76,9 @@ const AppRoutes: React.FC = () => {
                 <Route path="orders" element={<OrderListPage/>}/>
 
             </Route>
-            <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+
+            <Route path="/forgot-password" element={<ForgotPasswordPage/>} />
+            <Route path="/information" element={<InformationPage/>} />
 
         </Routes>
     );

@@ -83,34 +83,52 @@ export default function ProductListPage() {
     };
 
     const columns: GridColDef[] = [
-        { field: "productId", headerName: "ID", flex: 1 },
-        { field: "name", headerName: "Tên sản phẩm", flex: 2 },
+        { field: "productId", headerName: "ID", flex: 1 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
+        { field: "name", headerName: "Tên sản phẩm", flex: 2 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
         {
             field: "price",
             headerName: "Giá",
             flex: 1.5,
             renderCell: (params) => {
                 const price = params.row.price;
-                return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+                return (
+                    <span translate="no">
+                {price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                })}
+            </span>
+                );
             },
         },
-        { field: "stockQuantity", headerName: "Số lượng tồn kho", flex: 1.5 },
+        {
+            field: "stockQuantity", headerName: "Số lượng tồn kho", flex: 1.5 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
         {
             field: "categoryId",
             headerName: "Danh mục",
             flex: 2,
             renderCell: (params) => {
+                <span translate="no">{params.value}</span>
                 const category = categories.find(c => c.categoryId === params.value);
                 if (!category) return null;
 
                 return (
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{display: 'flex', alignItems: 'center'}} translate="no" >
                         <img
                             src={category.categoryImage}
                             alt={category.name}
                             width={40}
                             height={40}
-                            style={{ marginRight: 8, objectFit: 'cover', borderRadius: 4 }}
+                            style={{marginRight: 8, objectFit: 'cover', borderRadius: 4}}
                         />
                         <Typography>{category.name}</Typography>
                     </Box>
