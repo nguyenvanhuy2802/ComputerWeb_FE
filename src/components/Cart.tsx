@@ -170,13 +170,13 @@ const Cart: React.FC = () => {
                                     <td className="text-start d-flex align-items-center">
                                         {item.product ? (
                                             <>
-                                                <img
+                                                <img translate="no"
                                                     src={item.product.productImage}
                                                     alt={item.product.name}
                                                     className="rounded shadow-sm me-2"
                                                     style={{width: 50, height: 50, objectFit: "cover"}}
                                                 />
-                                                <span>{item.product.name}</span>
+                                                <span translate="no">{item.product.name}</span>
                                             </>
                                         ) : (
                                             <span className="text-muted">Không có thông tin sản phẩm</span>
@@ -184,7 +184,7 @@ const Cart: React.FC = () => {
                                     </td>
                                     <td>
                                         <input
-                                            type="number"
+                                            type="number" translate="no"
                                             value={inputQuantities[item.cartItemId] ?? item.quantity.toString()}
                                             min={1}
                                             className="form-control text-center"

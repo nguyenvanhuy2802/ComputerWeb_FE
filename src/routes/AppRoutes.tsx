@@ -21,6 +21,7 @@ import AdminRoute from "./AdminRoute";
 import InformationPage from "../components/InformationPage";
 import CategoryPage from "../pages/CategoryPage";
 import SearchPage from "../pages/SearchPage";
+import PrivateRoute from "./PrivateRoute";
 
 
 

@@ -135,11 +135,11 @@ const Result: React.FC = () => {
                                         />
                                     </Link>
                                     <div className="card-body d-flex flex-column">
-                                        <h5 className="card-title">{p.name}</h5>
+                                        <h5 className="card-title" translate="no">{p.name}</h5>
                                         <div className="rating mb-2">
                                             <div className="d-flex align-items-center mb-1">
                                                 {[1, 2, 3, 4, 5].map((star) => (
-                                                    <i
+                                                    <i translate="no"
                                                         key={star}
                                                         className={
                                                             averageRatings[p.productId] >= star
@@ -151,7 +151,7 @@ const Result: React.FC = () => {
                                                     ></i>
                                                 ))}
                                             </div>
-                                            <small className="text-muted">
+                                            <small className="text-muted" translate="no">
                                                 {averageRatings[p.productId]?.toFixed(1) || "0.0"} / 5
                                                 {" "}({reviewCounts[p.productId] || 0} lượt đánh giá)
                                             </small>
@@ -206,7 +206,7 @@ const Result: React.FC = () => {
                                 <div className="modal-body">
                                     {/* Thông tin sản phẩm */}
                                     <div className="d-flex align-items-center mb-3">
-                                        <img
+                                        <img translate="no"
                                             src={selectedProduct.productImage}
                                             alt={selectedProduct.name}
                                             className="img-fluid rounded-circle"
@@ -218,7 +218,7 @@ const Result: React.FC = () => {
                                             }}
                                         />
                                         <div>
-                                            <h5>{selectedProduct.name}</h5>
+                                            <h5 translate="no">{selectedProduct.name}</h5>
                                             <p className="text-danger fw-bold">{selectedProduct.price.toLocaleString()} VND</p>
                                         </div>
                                     </div>
