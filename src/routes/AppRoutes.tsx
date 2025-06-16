@@ -20,6 +20,7 @@ import EditProductPage from "../admin/pages/products/EditProductPage";
 import ProductDetailPage from "../pages/ProductDetailPage";
 import CategoryPage from "../pages/CategoryPage";
 import SearchPage from "../pages/SearchPage";
+import AdminRoute from "./AdminRoute";
 
 
 const AppRoutes: React.FC = () => {
@@ -60,9 +61,9 @@ const AppRoutes: React.FC = () => {
 
             {/* Trang dashboard được bảo vệ bằng AdminRoute */}
             <Route path="/admin" element={
-                <PrivateRoute>
+                <AdminRoute>
                     <AdminLayout/>
-                </PrivateRoute>
+                </AdminRoute>
             }>
                 <Route index element={<UserListPage/>}/>
                 <Route path="users" element={<UserListPage/>}/>
