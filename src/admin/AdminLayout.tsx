@@ -16,6 +16,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import LogoutIcon from "@mui/icons-material/Logout";
+import GoogleTranslate from "../components/GoogleTranslate";
 
 const AdminLayout: React.FC = () => {
     const navigate = useNavigate();
@@ -49,6 +50,7 @@ const AdminLayout: React.FC = () => {
                         Bảng điều khiển Quản trị viên
                     </Typography>
                     <Stack direction="row" spacing={1}>
+                        <GoogleTranslate />
                         <Button
                             variant={isActive("/admin/users") ? "contained" : "text"}
                             color="inherit"

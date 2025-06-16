@@ -34,7 +34,7 @@ const ProductDetail: React.FC = () => {
 
     const fetchReviews = async () => {
         const res = await getReviewsByProductId(Number(id));
-        setReviews(res.data);
+        setReviews(res);
     };
     useEffect(() => {
         if (!id || isNaN(Number(id))) return;

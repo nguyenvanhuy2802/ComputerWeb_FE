@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     DataGrid,
     GridColDef,
@@ -59,6 +59,7 @@ export default function UserListPage() {
     };
 
     const handleConfirmDelete = () => {
+        console.log(localStorage.getItem("token"))
         if (!selectedId) return;
         deleteUser(selectedId)
             .then(() => {
@@ -79,10 +80,43 @@ export default function UserListPage() {
     };
 
     const columns: GridColDef[] = [
-        { field: 'userId', headerName: 'ID', flex: 1 },
-        { field: 'email', headerName: 'Email', flex: 2 },
-        { field: 'name', headerName: 'Họ tên', flex: 2 },
-        { field: 'username', headerName: 'Tên đăng nhập', flex: 2 },
+        { field: 'userId', headerName: 'ID', flex: 1 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
+        {
+            field: "profileImage",
+            headerName: "Ảnh đại diện",
+            flex: 2,
+            renderCell: (params) => {
+                const imageUrl = params.value;
+
+                return (
+                    <img
+                        src={imageUrl}
+                        alt="avatar"
+                        style={{
+                            width: 50,
+                            height: 50,
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                        }}
+                    />
+                );
+            },
+        },
+        { field: 'email', headerName: 'Email', flex: 2 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
+        { field: 'name', headerName: 'Họ tên', flex: 2 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
+        { field: 'username', headerName: 'Tên đăng nhập', flex: 2 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
         {
             field: 'role',
             headerName: 'Vai trò',
@@ -95,6 +129,7 @@ export default function UserListPage() {
                         label={isAdmin ? 'Admin' : 'Customer'}
                         color={isAdmin ? 'error' : 'primary'}
                         variant="outlined"
+                        translate="no"
                     />
                 );
             },

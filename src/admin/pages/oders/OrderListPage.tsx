@@ -71,6 +71,10 @@ const statusStyles: Record<OrderStatus, { color: string; bgColor: string; icon: 
         icon: <ReplayIcon fontSize="small" />,
     },
 };
+const isUsingGoogleTranslate = () => {
+    const lang = document.documentElement.lang;
+    return lang && lang !== "vi";
+};
 const allowedTransitions: Record<OrderStatus, OrderStatus[]> = {
     PENDING: ["CONFIRMED", "CANCELED"],
     CONFIRMED: ["PACKAGING", "CANCELED"],
@@ -143,16 +147,26 @@ const OrderListPage: React.FC = () => {
     };
 
     const columns: GridColDef[] = [
-        { field: "orderId", headerName: "Mã đơn", flex: 1 },
-        { field: "buyerName", headerName: "Người mua", flex: 1.5 },
-        { field: "deliveryAddress", headerName: "Địa chỉ giao hàng", flex: 2 },
+        { field: "orderId", headerName: "Mã đơn", flex: 1,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
+        { field: "buyerName", headerName: "Người mua", flex: 1.5 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
+        { field: "deliveryAddress", headerName: "Địa chỉ giao hàng", flex: 2 ,
+            renderCell: (params) => (
+                <span translate="no">{params.value}</span>
+            )},
         {
             field: "totalAmount",
             headerName: "Tổng tiền (đ)",
             flex: 1,
             renderCell: (params) => {
+                <span translate="no">{params.value}</span>
                 const price = params.row.totalAmount;
-                return price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+                return price.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
             },
         },
         {
@@ -168,6 +182,7 @@ const OrderListPage: React.FC = () => {
                     <Box
                         display="flex"
                         alignItems="center"
+                        translate="no"
                         gap={1}
                         sx={{
                             backgroundColor: style.bgColor,
@@ -186,6 +201,7 @@ const OrderListPage: React.FC = () => {
                             }
                             size="small"
                             variant="standard"
+                            translate="no"
                             disableUnderline
                             disabled={validNextStatuses.length === 0}
                             sx={{
@@ -196,9 +212,11 @@ const OrderListPage: React.FC = () => {
                                 "& .MuiSelect-icon": { color: style.color },
                             }}
                         >
-                            <MenuItem value={currentStatus}>{statusLabels[currentStatus]}</MenuItem>
+                            <MenuItem value={currentStatus} translate="no">
+                                {statusLabels[currentStatus]}
+                            </MenuItem>
                             {validNextStatuses.map((status) => (
-                                <MenuItem key={status} value={status}>
+                                <MenuItem key={status} value={status} translate="no">
                                     {statusLabels[status]}
                                 </MenuItem>
                             ))}
@@ -212,6 +230,7 @@ const OrderListPage: React.FC = () => {
             headerName: "Ngày đặt",
             flex: 1.5,
             renderCell: (params) => {
+                <span translate="no">{params.value}</span>
                 const date = new Date(params.row.orderDate);
                 return date.toLocaleString("vi-VN");
             },
@@ -271,13 +290,13 @@ const OrderListPage: React.FC = () => {
                 />
             </Box>
 
-            <Dialog open={confirmDialogOpen} onClose={cancelStatusChange}>
+            <Dialog open={confirmDialogOpen} onClose={cancelStatusChange} >
                 <DialogTitle>Xác nhận thay đổi trạng thái</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Bạn có chắc chắn muốn cập nhật đơn hàng{" "}
-                        <strong>#{selectedOrderId}</strong> thành trạng thái{" "}
-                        <strong>{selectedNewStatus && statusLabels[selectedNewStatus]}</strong>?
+                        <strong translate="no">#{selectedOrderId}</strong> thành trạng thái{" "}
+                        <strong translate="no">{selectedNewStatus && statusLabels[selectedNewStatus]}</strong>?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

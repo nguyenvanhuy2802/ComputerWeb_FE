@@ -141,6 +141,7 @@ const AddProductPage: React.FC = () => {
                     label="Giá"
                     name="price"
                     type="number"
+
                     value={formData.price}
                     onChange={handleChange}
                     required
@@ -152,6 +153,7 @@ const AddProductPage: React.FC = () => {
                     label="Số lượng"
                     name="stockQuantity"
                     type="number"
+
                     value={formData.stockQuantity}
                     onChange={handleChange}
                     required
@@ -161,7 +163,7 @@ const AddProductPage: React.FC = () => {
                 />
 
                 {loadingCategories ? (
-                    <Box display="flex" alignItems="center">
+                    <Box display="flex" alignItems="center" translate="no">
                         <CircularProgress size={20} />
                         <Typography ml={2}>Đang tải danh mục...</Typography>
                     </Box>
@@ -170,6 +172,7 @@ const AddProductPage: React.FC = () => {
                         select
                         label="Danh mục"
                         name="categoryId"
+                        translate="no"
                         value={formData.categoryId}
                         onChange={handleChange}
                         required
@@ -178,13 +181,13 @@ const AddProductPage: React.FC = () => {
                         helperText={formErrors.categoryId}
                     >
                         {categories.map((category) => (
-                            <MenuItem key={category.categoryId} value={category.categoryId}>
+                            <MenuItem key={category.categoryId} value={category.categoryId} translate="no">
                                 {category.name}
                             </MenuItem>
                         ))}
                     </TextField>
                 )}
-                <Box mt={1} display="flex" justifyContent="center">
+                <Box mt={1} display="flex" justifyContent="center" >
                     <img
                         src={formData.productImage || "/placeholder-image.png"}
                         alt="Chưa có ảnh sản phẩm vui lòng chọn ảnh"

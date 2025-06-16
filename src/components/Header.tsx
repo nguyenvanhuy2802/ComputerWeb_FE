@@ -4,6 +4,7 @@ import {FaBars, FaBell, FaClipboardList, FaSearch, FaShoppingCart, FaUser} from 
 import {Link, useNavigate} from "react-router-dom";
 import {useCart} from "../context/CartContext";
 import { MdReceiptLong } from "react-icons/md";
+import GoogleTranslate from "../components/GoogleTranslate";
 
 
 
@@ -111,7 +112,7 @@ const Header: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-
+                            <GoogleTranslate />
                         </div>
 
                     </div>
