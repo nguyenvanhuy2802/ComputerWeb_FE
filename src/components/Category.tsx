@@ -122,7 +122,7 @@ const CategoryComp: React.FC = () => {
                             Trang chủ
                         </Link>
                     </li>
-                    <li className="breadcrumb-item active" aria-current="page">
+                    <li className="breadcrumb-item active" aria-current="page" translate="no">
                         {category?.name}
                     </li>
                 </ol>
@@ -130,14 +130,14 @@ const CategoryComp: React.FC = () => {
 
             {/* Mục danh sách sản phẩm */}
             <section className="mt-5">
-                <h2 className="mb-5 text-center fw-bold">Danh Sách Sản Phẩm: {category?.name}</h2>
+                <h2 className="mb-5 text-center fw-bold" translate="no">Danh Sách Sản Phẩm: {category?.name}</h2>
                 <div className="row g-4">
                     {products.length > 0 ? (
                         products.map((p) => (
                             <div key={p.productId} className="col-12 col-sm-6 col-md-4">
                                 <div className="card h-100 shadow border-0 rounded-3 product-card">
                                     <Link to={`/product/${p.productId}`} className="text-decoration-none">
-                                        <img
+                                        <img translate="no"
                                             src={p.productImage}
                                             alt={p.name}
                                             className="card-img-top product-card-img rounded-top"
@@ -146,11 +146,11 @@ const CategoryComp: React.FC = () => {
                                         />
                                     </Link>
                                     <div className="card-body d-flex flex-column">
-                                        <h5 className="card-title">{p.name}</h5>
+                                        <h5 className="card-title" translate="no">{p.name}</h5>
                                         <div className="rating mb-2">
                                             <div className="d-flex align-items-center mb-1">
                                                 {[1, 2, 3, 4, 5].map((star) => (
-                                                    <i
+                                                    <i translate="no"
                                                         key={star}
                                                         className={
                                                             averageRatings[p.productId] >= star
@@ -217,7 +217,7 @@ const CategoryComp: React.FC = () => {
                                 <div className="modal-body">
                                     {/* Thông tin sản phẩm */}
                                     <div className="d-flex align-items-center mb-3">
-                                        <img
+                                        <img translate="no"
                                             src={selectedProduct.productImage}
                                             alt={selectedProduct.name}
                                             className="img-fluid rounded-circle"
@@ -229,7 +229,7 @@ const CategoryComp: React.FC = () => {
                                             }}
                                         />
                                         <div>
-                                            <h5>{selectedProduct.name}</h5>
+                                            <h5 translate="no">{selectedProduct.name}</h5>
                                             <p className="text-danger fw-bold">{selectedProduct.price.toLocaleString()} VND</p>
                                         </div>
                                     </div>

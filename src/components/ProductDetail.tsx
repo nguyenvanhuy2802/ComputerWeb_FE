@@ -316,7 +316,7 @@ const ProductDetail: React.FC = () => {
                                 </div>
                                 <div className="modal-body">
                                     {/* Thông tin sản phẩm */}
-                                    <div className="d-flex align-items-center mb-3">
+                                    <div className="d-flex align-items-center mb-3" translate="no">
                                         <img
                                             src={product.productImage}
                                             alt={product.name}
@@ -329,7 +329,7 @@ const ProductDetail: React.FC = () => {
                                             }}
                                         />
                                         <div>
-                                            <h5>{product.name}</h5>
+                                            <h5 translate="no">{product.name}</h5>
                                             <p className="text-danger fw-bold">{product.price.toLocaleString()} VND</p>
                                         </div>
                                     </div>

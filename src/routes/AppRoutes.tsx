@@ -26,6 +26,7 @@ import QRCodePage from "../pages/QRCodePage";
 import DashboardPage from "../pages/DashboardPage";
 
 
+
 const AppRoutes: React.FC = () => {
     return (
         <Routes>

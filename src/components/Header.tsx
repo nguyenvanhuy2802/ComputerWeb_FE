@@ -122,7 +122,7 @@ const Header: React.FC = () => {
                                 <div>
                                     <div><Link to="/cart" className="site-sub-link-b">Giỏ hàng của bạn</Link></div>
                                     <div className="site-sub-link">
-                                        <span className="cart-count-highlight">({cartCount})</span> sản phẩm
+                                        <span className="cart-count-highlight" translate="no">({cartCount})</span> sản phẩm
                                     </div>
                                 </div>
                             </div>
