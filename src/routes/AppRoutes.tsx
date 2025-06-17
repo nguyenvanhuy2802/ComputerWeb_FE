@@ -22,6 +22,8 @@ import InformationPage from "../components/InformationPage";
 import CategoryPage from "../pages/CategoryPage";
 import SearchPage from "../pages/SearchPage";
 import PrivateRoute from "./PrivateRoute";
+import QRCodePage from "../pages/QRCodePage";
+import DashboardPage from "../pages/DashboardPage";
 
 
 
@@ -34,6 +36,15 @@ const AppRoutes: React.FC = () => {
             <Route path="/category/:id" element={<CategoryPage/>}/>
             <Route path="/search" element={<SearchPage/>}/>
             <Route path="/" element={<HomePage/>}/>
+            <Route path="/dashboard" element={<DashboardPage/>}/>
+            <Route
+                path="/qr"
+                element={
+                    <PrivateRoute>
+                        <QRCodePage />
+                    </PrivateRoute>
+                }
+            />
             <Route
                 path="/cart"
                 element={
@@ -64,7 +75,7 @@ const AppRoutes: React.FC = () => {
             {/* Trang dashboard được bảo vệ bằng AdminRoute */}
             <Route path="/admin" element={
                 <AdminRoute>
-                    <AdminLayout />
+                    <AdminLayout/>
                 </AdminRoute>
             }>
                 <Route index element={<UserListPage/>}/>
@@ -78,9 +89,13 @@ const AppRoutes: React.FC = () => {
 
             </Route>
 
-            <Route path="/forgot-password" element={<ForgotPasswordPage/>} />
-            <Route path="/information" element={<InformationPage/>} />
-
+            <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+            <Route path="/information"
+                   element={
+                       <PrivateRoute>
+                           <InformationPage/>
+                       </PrivateRoute>
+                   }/>
         </Routes>
     );
 };

@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
                 console.log("token:", token);
                 localStorage.setItem("username", data.username);
                 updateToken(token);
-                navigate(from, {replace: true});
+                navigate("/");
             }
         } catch (error: any) {
             if (error.response?.status === 401) {

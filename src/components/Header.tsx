@@ -85,7 +85,7 @@ const Header: React.FC = () => {
                                         <FaUser style={{ marginRight: '6px' }} />
                                     </Link>
                                     <div>
-                                        <div>Xin chào, <strong>{username}</strong></div>
+                                        <div translate={"no"}>Xin chào, <strong>{username}</strong></div>
                                         <Link
                                             to="#"
                                             className="site-sub-link-b"

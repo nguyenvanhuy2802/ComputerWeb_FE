@@ -11,11 +11,14 @@ const isAuthenticated = (): boolean => {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
     const location = useLocation();
+    // if (location.pathname === "/payment") {
+    //     return <Navigate to="/" />;
+    // }
 
     return isAuthenticated() ? (
         children
     ) : (
-        <Navigate to="/login" replace state={{from: location}}/>
+        <Navigate to="/login"/>
     );
 };
 

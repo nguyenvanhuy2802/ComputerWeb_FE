@@ -32,7 +32,7 @@ const ModalReview: React.FC<ModalReviewProps> = ({
 
         try {
             await createReview(data);
-            onReviewSuccess(); // reload lại danh sách review
+            onReviewSuccess();
             onHide();
         } catch (err) {
             alert("Lỗi khi gửi đánh giá.");
@@ -42,49 +42,51 @@ const ModalReview: React.FC<ModalReviewProps> = ({
 
     return (
         <Modal show={show} onHide={onHide} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Viết đánh giá & bình luận</Modal.Title>
+            <Modal.Header closeButton className="bg-primary text-white">
+                <Modal.Title>🌟 Viết đánh giá & bình luận</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className="mb-3">
-                    <strong>Đánh giá:</strong>
-                    <div>
+                <div className="mb-4">
+                    <strong className="d-block mb-2 fs-6 text-dark">Đánh giá của bạn:</strong>
+                    <div className="d-flex">
                         {[1, 2, 3, 4, 5].map((star) => {
                             const filled = hover ? hover >= star : rating >= star;
                             return (
                                 <i
                                     key={star}
-                                    className={`${filled ? "fas text-warning" : "far text-muted"} fa-star me-1`}
+                                    className={`fa-star me-2 ${filled ? "fas text-warning" : "far text-muted"}`}
                                     onClick={() => setRating(star)}
                                     onMouseEnter={() => setHover(star)}
                                     onMouseLeave={() => setHover(0)}
-                                    style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                                    style={{ cursor: "pointer", fontSize: "2rem" }}
                                 />
                             );
                         })}
                     </div>
                 </div>
-                <Form.Group controlId="reviewText" className="mb-3">
-                    <Form.Label>Bình luận</Form.Label>
+
+                <Form.Group controlId="reviewText" className="mb-4">
+                    <Form.Label className="fw-bold">Bình luận</Form.Label>
                     <Form.Control
                         as="textarea"
-                        rows={3}
+                        rows={4}
                         value={reviewText}
                         onChange={(e) => setReviewText(e.target.value)}
-                        placeholder="Nhập cảm nhận của bạn..."
+                        placeholder="Chia sẻ cảm nhận của bạn về sản phẩm..."
+                        className="shadow-sm"
                     />
                 </Form.Group>
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className="bg-light">
                 <Button variant="secondary" onClick={onHide}>
-                    Hủy
+                    ❌ Hủy
                 </Button>
                 <Button
-                    variant="primary"
+                    variant="success"
                     disabled={rating === 0 || reviewText.trim() === ""}
                     onClick={handleSubmit}
                 >
-                    Đánh giá
+                    ✅ Gửi đánh giá
                 </Button>
             </Modal.Footer>
         </Modal>

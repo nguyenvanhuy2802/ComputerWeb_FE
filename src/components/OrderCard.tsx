@@ -49,7 +49,8 @@ const getStatusBadgeClass = (status: string): string => {
 const OrderCard: React.FC<{
     order: OrderWithPayment;
     onViewDetails: (orderId: number) => void;
-}> = ({ order, onViewDetails }) => (
+    onCancel: (orderId: number) => void;
+}> = ({ order, onViewDetails, onCancel }) => (
     <div className="order-card shadow rounded-4 p-4 bg-white">
         <div className="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
             <h5 className="mb-0 text-primary fw-bold">Mã đơn hàng: #{order.orderId}</h5>
@@ -71,10 +72,20 @@ const OrderCard: React.FC<{
                     </span>
                 </p>
             </div>
-            <p><strong>Phương thức thanh toán:</strong> {paymentMethodMap[order.paymentMethod ?? ""] || "Không xác định"}</p>
-            <p><strong>Trạng thái thanh toán:</strong> {paymentStatusMap[order.paymentStatus ?? ""] || "Không xác định"}</p>
+            <p><strong>Phương thức thanh
+                toán:</strong> {paymentMethodMap[order.paymentMethod ?? ""] || "Không xác định"}</p>
+            <p><strong>Trạng thái thanh toán:</strong> {paymentStatusMap[order.paymentStatus ?? ""] || "Không xác định"}
+            </p>
         </div>
-        <div className="text-end mt-4">
+        <div className="text-end mt-4 d-flex justify-content-end gap-3">
+            {order.status === "PENDING" && (
+                <button
+                    className="btn btn-outline-danger rounded-pill px-4"
+                    onClick={() => onCancel(order.orderId)}
+                >
+                    Hủy đơn hàng
+                </button>
+            )}
             <button
                 className="btn btn-outline-primary rounded-pill px-4"
                 onClick={() => onViewDetails(order.orderId)}
@@ -82,6 +93,7 @@ const OrderCard: React.FC<{
                 Xem chi tiết
             </button>
         </div>
+
     </div>
 );
 

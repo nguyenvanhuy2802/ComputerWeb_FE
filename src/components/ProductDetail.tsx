@@ -34,6 +34,8 @@ const ProductDetail: React.FC = () => {
     const [reviews, setReviews] = useState<Review[]>([]);
     const defaultAvatar = "data:image/jpeg;base64,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";
     const productId = parseInt(id!);
+    const [showAllReviews, setShowAllReviews] = useState(false);
+
 
 
     const fetchReviews = async () => {
@@ -127,44 +129,47 @@ const ProductDetail: React.FC = () => {
 
     return (
         <div className="detail-wrapper">
-            <nav aria-label="breadcrumb">
-                <ol className="breadcrumb bg-white shadow-sm p-3 rounded">
+            {/* Breadcrumb */}
+            <nav aria-label="breadcrumb" className="container mb-4">
+                <ol className="breadcrumb bg-white shadow-sm p-3 rounded mb-0">
                     <li className="breadcrumb-item">
-                        <Link to="/" className="text-decoration-none">
-                            Trang chủ
-                        </Link>
+                        <Link to="/" className="text-decoration-none">Trang chủ</Link>
                     </li>
                     <li className="breadcrumb-item">
                         <Link to={`/category/${category?.categoryId}`} className="text-decoration-none">
                             {category?.name || "Danh mục"}
                         </Link>
-
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                      {product.name}
+                        {product.name}
                     </li>
                 </ol>
             </nav>
-            <div className="container my-5">
-                <div className="row g-4">
+
+            {/* Sản phẩm chi tiết */}
+            <div className="container my-4">
+                <div className="row g-4 align-items-start">
+                    {/* Hình ảnh */}
                     <div className="col-md-6">
-                        <div className="card shadow">
+                        <div className="card shadow-sm border-0">
                             <img
                                 src={product.productImage}
-                                className="card-img-top rounded"
                                 alt={product.name}
+                                className="card-img-top rounded"
                             />
                         </div>
                     </div>
-                    <div className="col-md-6">
-                        <div className="card shadow p-4">
-                            <h2 className="card-title mb-3">{product.name}</h2>
 
-                            {/* Hiển thị sao đánh giá */}
+                    {/* Thông tin */}
+                    <div className="col-md-6">
+                        <div className="card shadow-sm p-4 border-0">
+                            <h2 className="mb-3">{product.name}</h2>
+
+                            {/* Đánh giá */}
                             {averageRating !== null && (
-                                <div className="mb-2">
-                                    <span className="me-2">{renderStars(averageRating)}</span>
-                                    <span className="text-muted">({averageRating.toFixed(1)} sao)</span>
+                                <div className="mb-2 d-flex align-items-center">
+                                    {renderStars(averageRating)}
+                                    <span className="text-muted ms-2">({averageRating.toFixed(1)} sao)</span>
                                 </div>
                             )}
 
@@ -174,7 +179,7 @@ const ProductDetail: React.FC = () => {
 
                             <p className="text-muted mb-2">Mã sản phẩm: #{product.productId}</p>
 
-                            <p className="mb-3">
+                            <p className="mb-2">
                                 <span className="fw-bold">Tồn kho: </span>
                                 {product.stockQuantity > 0 ? (
                                     <span className="badge bg-success">{product.stockQuantity} sản phẩm</span>
@@ -183,12 +188,12 @@ const ProductDetail: React.FC = () => {
                                 )}
                             </p>
 
-                            <p className="mb-4">{product.description}</p>
+                            <p className="mb-4 text-secondary">{product.description}</p>
 
-                            <div className="btn-group d-flex gap-2 mt-auto">
+                            {/* Nút hành động */}
+                            <div className="d-flex flex-column flex-sm-row gap-2 mt-3">
                                 <button
-                                    type="button"
-                                    className="btn btn-outline-primary flex-grow-1"
+                                    className="btn btn-outline-primary w-100"
                                     onClick={() => {
                                         setModalAction("add-to-cart");
                                         setQuantity(1);
@@ -198,8 +203,7 @@ const ProductDetail: React.FC = () => {
                                     <i className="bi bi-cart-plus me-2"></i>Thêm vào Giỏ
                                 </button>
                                 <button
-                                    type="button"
-                                    className="btn btn-success flex-grow-1"
+                                    className="btn btn-success w-100"
                                     onClick={() => {
                                         setModalAction("buy");
                                         setQuantity(1);
@@ -214,29 +218,35 @@ const ProductDetail: React.FC = () => {
                 </div>
             </div>
 
-            <div>
+            {/* Đánh giá & bình luận */}
+            <div className="container mt-5">
                 <h3 className="mb-4">Đánh giá & Bình luận</h3>
-                {/* Nút đánh giá */}
-                <div className="text-end mt-2 mb-3">
-                    <button className="btn btn-primary" onClick={() => setShowDetailModal(true)}
-                            disabled={reviews.some((review) => review.userId === userId)}>
-                        {reviews.some((review) => review.userId === userId) ? "Bạn đã đánh giá" : "Viết đánh giá & bình luận"}
+
+                <div className="text-end mb-3">
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => setShowDetailModal(true)}
+                        disabled={reviews.some((review) => review.userId === userId)}
+                    >
+                        {reviews.some((review) => review.userId === userId)
+                            ? "Bạn đã đánh giá"
+                            : "Viết đánh giá & bình luận"}
                     </button>
                 </div>
-                {/* Khu vực bình luận */}
+
                 {reviews.length === 0 ? (
-                    <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                    <p className="text-muted">Chưa có đánh giá nào cho sản phẩm này.</p>
                 ) : (
                     <div
                         style={{
-                            maxHeight: (reviews.length > 3) ? "400px" : "auto",
-                            overflowY: (reviews.length > 3) ? "auto" : "visible",
+                            maxHeight: reviews.length > 3 ? "400px" : "auto",
+                            overflowY: reviews.length > 3 ? "auto" : "visible",
                         }}
                     >
-                        {reviews.slice(0, 3).map((review) => (
+                        {(showAllReviews ? reviews : reviews.slice(0, 3)).map((review) => (
                             <div
                                 key={review.reviewId}
-                                className="border p-3 mb-3 rounded shadow-sm"
+                                className="border bg-white p-3 mb-3 rounded shadow-sm"
                             >
                                 <div className="d-flex justify-content-between align-items-center mb-2">
                                     <div className="d-flex align-items-center gap-2">
@@ -244,11 +254,9 @@ const ProductDetail: React.FC = () => {
                                             src={defaultAvatar}
                                             alt="avatar"
                                             className="rounded-circle"
-                                            style={{width: 40, height: 40}}
+                                            style={{ width: 40, height: 40 }}
                                         />
-                                        <strong>
-                                            {review.userId === userId ? "Bạn" : "Người dùng"}
-                                        </strong>
+                                        <strong>{review.userId === userId ? "Bạn" : "Người dùng"}</strong>
                                     </div>
                                     <span>{renderStars(review.rating)}</span>
                                 </div>
@@ -261,6 +269,18 @@ const ProductDetail: React.FC = () => {
                     </div>
                 )}
 
+                {/* Modal đánh giá */}
+                {userId !== null && (
+                    <ModalReview
+                        show={showDetailModal}
+                        onHide={() => setShowDetailModal(false)}
+                        productId={productId}
+                        userId={userId}
+                        onReviewSuccess={fetchReviews}
+                    />
+                )}
+
+
                 {userId !== null && (
                     <ModalReview
                         show={showDetailModal}
@@ -271,6 +291,17 @@ const ProductDetail: React.FC = () => {
                     />
                 )}
             </div>
+
+            {reviews.length > 3 && (
+                <div className="text-center mt-3">
+                    <button
+                        className="btn btn-link"
+                        onClick={() => setShowAllReviews(!showAllReviews)}
+                    >
+                        {showAllReviews ? "Ẩn bớt bình luận" : "Xem thêm bình luận"}
+                    </button>
+                </div>
+            )}
 
 
             {/* Modal hiển thị chi tiết sản phẩm */}
