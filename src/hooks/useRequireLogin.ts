@@ -10,9 +10,7 @@ export function useRequireLogin() {
     return () => {
         if (!userId) {
             toast.info("Vui lòng đăng nhập!");
-            navigate("/login", {
-                state: { from: location }
-            });
+            navigate("/login");
             return false;
         }
         return true;

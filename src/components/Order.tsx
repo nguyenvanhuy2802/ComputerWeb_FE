@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { getOrdersByCustomerId } from "../api/orderApi";
-import { useUser } from "../context/UserContext";
-import { getOrderItemsByOrderId } from "../api/orderItemApi";
+import React, {useEffect, useState} from "react";
+import {getOrdersByCustomerId, updateOrderStatusWithUser} from "../api/orderApi";
+import {useUser} from "../context/UserContext";
+import {getOrderItemsByOrderId} from "../api/orderItemApi";
 import OrderDetailModal from "./OrderDetailModal";
-import { getPaymentsByOrderId } from "../api/paymentApi";
-import { Order } from "../types/Order";
+import {getPaymentsByOrderId} from "../api/paymentApi";
+import {Order} from "../types/Order";
 import "../css/orders.css";
 import OrderCard from "./OrderCard";
 import {Link} from "react-router-dom";
+import {updateOrderStatus} from "../api/orderApi"
 
 type OrderWithPayment = Order & {
     paymentMethod?: string;
@@ -16,7 +17,7 @@ type OrderWithPayment = Order & {
 
 
 const Orders: React.FC = () => {
-    const { userId } = useUser();
+    const {userId} = useUser();
     const [currentOrders, setCurrentOrders] = useState<OrderWithPayment[]>([]);
     const [pastOrders, setPastOrders] = useState<OrderWithPayment[]>([]);
     const [showModal, setShowModal] = useState(false);
@@ -60,6 +61,45 @@ const Orders: React.FC = () => {
         fetchOrders();
     }, [userId]);
 
+    const handleCancelOrder = async (orderId: number) => {
+        if (window.confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
+            try {
+                await updateOrderStatusWithUser(orderId, "CANCELED");
+                // Cập nhật lại danh sách đơn hàng
+                const refreshedOrders: Order[] = await getOrdersByCustomerId(userId);
+                const enrichedOrders = await Promise.all(
+                    refreshedOrders.map(async (order) => {
+                        const payments = await getPaymentsByOrderId(order.orderId);
+                        const latestPayment = payments.length > 0 ? payments[0] : null;
+
+                        return {
+                            ...order,
+                            paymentMethod: latestPayment?.paymentMethod || "Không rõ",
+                            paymentStatus: latestPayment?.status || "Chưa thanh toán",
+                        };
+                    })
+                );
+                const current = enrichedOrders.filter(
+                    (order) =>
+                        order.status !== "COMPLETED" &&
+                        order.status !== "CANCELED" &&
+                        order.status !== "RETURNED"
+                );
+                const past = enrichedOrders.filter(
+                    (order) =>
+                        order.status === "COMPLETED" ||
+                        order.status === "CANCELED" ||
+                        order.status === "RETURNED"
+                );
+
+                setCurrentOrders(current);
+                setPastOrders(past);
+            } catch (error) {
+                alert("Đã xảy ra lỗi khi hủy đơn hàng.");
+                console.error(error);
+            }
+        }
+    };
     const handleViewDetails = async (orderId: number) => {
         const items = await getOrderItemsByOrderId(orderId);
         setSelectedOrderId(orderId);
@@ -77,7 +117,7 @@ const Orders: React.FC = () => {
                         </Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                       Đơn hàng
+                        Đơn hàng
                     </li>
                 </ol>
             </nav>
@@ -92,7 +132,12 @@ const Orders: React.FC = () => {
                             <h4 className="mb-3 text-primary">Đơn hàng hiện tại</h4>
                             <div className="d-flex flex-column gap-4 mb-5">
                                 {currentOrders.map((order) => (
-                                    <OrderCard key={order.orderId} order={order} onViewDetails={handleViewDetails}/>
+                                    <OrderCard
+                                        key={order.orderId}
+                                        order={order}
+                                        onViewDetails={handleViewDetails}
+                                        onCancel={handleCancelOrder}
+                                    />
                                 ))}
                             </div>
                         </>
@@ -103,7 +148,12 @@ const Orders: React.FC = () => {
                             <h4 className="mb-3 text-secondary">Lịch sử đơn hàng</h4>
                             <div className="d-flex flex-column gap-4">
                                 {pastOrders.map((order) => (
-                                    <OrderCard key={order.orderId} order={order} onViewDetails={handleViewDetails}/>
+                                    <OrderCard
+                                        key={order.orderId}
+                                        order={order}
+                                        onViewDetails={handleViewDetails}
+                                        onCancel={handleCancelOrder}
+                                    />
                                 ))}
                             </div>
                         </>

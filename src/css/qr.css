@@ -1,0 +1,40 @@
+.container-wrapper {
+    padding-top: clamp(100px,30vh, 160px);
+    padding-bottom: clamp(100px,10vh, 160px);
+}
+
+/* src/css/qr.css */
+
+.qr-page {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    padding: 40px 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-wrapper {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 3px solid #0d6efd;
+    border-radius: 1.5rem;
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    transition: transform 0.3s ease;
+}
+
+.qr-wrapper:hover {
+    transform: scale(1.02);
+}
+
+.qr-img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+

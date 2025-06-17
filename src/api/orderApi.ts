@@ -39,6 +39,16 @@ export const updateOrderStatus = async (
     return res.data;
 };
 
+export const updateOrderStatusWithUser = async (
+    orderId: number,
+    status: OrderStatus
+): Promise<OrderDTO> => {
+    const res = await axiosInstance.put(`${BASE_URL}/${orderId}/pending-status`, null, {
+        params: {status},
+    });
+    return res.data;
+};
+
 export const deleteOrder = async (orderId: number): Promise<void> => {
     await axiosInstance.delete(`${BASE_URL}/${orderId}`);
 }

@@ -78,10 +78,22 @@ const Payment: React.FC = () => {
                 paymentMethod: paymentMethod,
                 status: "PENDING",
             }
-            await createPayment(payment);
 
             toast.success("Đặt hàng thành công!");
-            navigate("/orders");
+            if (paymentMethod === "QR_PAYMENT") {
+                navigate("/qr", {
+                    state: {
+                        amount: totalAmount,
+                        addInfo: `Thanh toán đơn hàng ${createdOrder.orderId}`,
+                        orderId: createdOrder.orderId,
+
+                    },
+                });
+            } else {
+                navigate("/orders");
+            }
+            await createPayment(payment);
+
 
         } catch (error) {
             console.error("Lỗi khi xử lý thanh toán:", error);
